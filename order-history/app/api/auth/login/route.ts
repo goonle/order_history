@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { loginAction } from "@/server/actions/auth.action";
 import { setSessionCookie } from "@/server/utils/session-cookie";
-
+import { createSession } from "@/server/services/session.service";
 
 export async function POST(req: Request) {
   const { accountId, password } = await req.json();
@@ -13,7 +13,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, message: authResult.message }, { status: authResult.status });
   }
 
-  const token = crypto.randomBytes(32).toString("hex");
+  // Create session and set cookie
+  const token = await createSession(authResult.userId);
   const res = NextResponse.json({ ok: true });
   setSessionCookie(res, token);
 
