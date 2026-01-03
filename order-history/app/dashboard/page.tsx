@@ -1,4 +1,4 @@
-import DashboardShell from "../components/server/DashboardShell";
+import DashboardShell from "../components/DashboardShell";
 
 export default function DashboardPage() {
   return (

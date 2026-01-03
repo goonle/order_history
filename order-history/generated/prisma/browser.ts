@@ -24,6 +24,12 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model SessionToken
+ * *
+ *  * SESSON TOKEN
+ */
+export type SessionToken = Prisma.SessionTokenModel
+/**
  * Model Vendor
  * *
  *  * VENDOR

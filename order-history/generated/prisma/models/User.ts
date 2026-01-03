@@ -202,6 +202,7 @@ export type UserWhereInput = {
   accountId?: Prisma.StringFilter<"User"> | string
   passwordEncrypted?: Prisma.StringFilter<"User"> | string
   templates?: Prisma.TemplateListRelationFilter
+  sessions?: Prisma.SessionTokenListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -209,6 +210,7 @@ export type UserOrderByWithRelationInput = {
   accountId?: Prisma.SortOrder
   passwordEncrypted?: Prisma.SortOrder
   templates?: Prisma.TemplateOrderByRelationAggregateInput
+  sessions?: Prisma.SessionTokenOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -219,6 +221,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   passwordEncrypted?: Prisma.StringFilter<"User"> | string
   templates?: Prisma.TemplateListRelationFilter
+  sessions?: Prisma.SessionTokenListRelationFilter
 }, "id" | "accountId">
 
 export type UserOrderByWithAggregationInput = {
@@ -245,6 +248,7 @@ export type UserCreateInput = {
   accountId: string
   passwordEncrypted: string
   templates?: Prisma.TemplateCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -252,12 +256,14 @@ export type UserUncheckedCreateInput = {
   accountId: string
   passwordEncrypted: string
   templates?: Prisma.TemplateUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
   templates?: Prisma.TemplateUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -265,6 +271,7 @@ export type UserUncheckedUpdateInput = {
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
   templates?: Prisma.TemplateUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -327,6 +334,20 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type UserCreateNestedOneWithoutSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSessionsInput
+  upsert?: Prisma.UserUpsertWithoutSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
 export type UserCreateNestedOneWithoutTemplatesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutTemplatesInput, Prisma.UserUncheckedCreateWithoutTemplatesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutTemplatesInput
@@ -341,15 +362,59 @@ export type UserUpdateOneRequiredWithoutTemplatesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTemplatesInput, Prisma.UserUpdateWithoutTemplatesInput>, Prisma.UserUncheckedUpdateWithoutTemplatesInput>
 }
 
+export type UserCreateWithoutSessionsInput = {
+  accountId: string
+  passwordEncrypted: string
+  templates?: Prisma.TemplateCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSessionsInput = {
+  id?: number
+  accountId: string
+  passwordEncrypted: string
+  templates?: Prisma.TemplateUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+}
+
+export type UserUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSessionsInput, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSessionsInput, Prisma.UserUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSessionsInput, Prisma.UserUncheckedUpdateWithoutSessionsInput>
+}
+
+export type UserUpdateWithoutSessionsInput = {
+  accountId?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
+  templates?: Prisma.TemplateUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  accountId?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
+  templates?: Prisma.TemplateUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutTemplatesInput = {
   accountId: string
   passwordEncrypted: string
+  sessions?: Prisma.SessionTokenCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTemplatesInput = {
   id?: number
   accountId: string
   passwordEncrypted: string
+  sessions?: Prisma.SessionTokenUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTemplatesInput = {
@@ -371,12 +436,14 @@ export type UserUpdateToOneWithWhereWithoutTemplatesInput = {
 export type UserUpdateWithoutTemplatesInput = {
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
+  sessions?: Prisma.SessionTokenUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTemplatesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   accountId?: Prisma.StringFieldUpdateOperationsInput | string
   passwordEncrypted?: Prisma.StringFieldUpdateOperationsInput | string
+  sessions?: Prisma.SessionTokenUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -386,10 +453,12 @@ export type UserUncheckedUpdateWithoutTemplatesInput = {
 
 export type UserCountOutputType = {
   templates: number
+  sessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   templates?: boolean | UserCountOutputTypeCountTemplatesArgs
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
 }
 
 /**
@@ -409,12 +478,20 @@ export type UserCountOutputTypeCountTemplatesArgs<ExtArgs extends runtime.Types.
   where?: Prisma.TemplateWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionTokenWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   accountId?: boolean
   passwordEncrypted?: boolean
   templates?: boolean | Prisma.User$templatesArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -439,6 +516,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "accountId" | "passwordEncrypted", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   templates?: boolean | Prisma.User$templatesArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -448,6 +526,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     templates: Prisma.$TemplatePayload<ExtArgs>[]
+    sessions: Prisma.$SessionTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -848,6 +927,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   templates<T extends Prisma.User$templatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$templatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1289,6 +1369,30 @@ export type User$templatesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.TemplateScalarFieldEnum | Prisma.TemplateScalarFieldEnum[]
+}
+
+/**
+ * User.sessions
+ */
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SessionToken
+   */
+  select?: Prisma.SessionTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SessionToken
+   */
+  omit?: Prisma.SessionTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionTokenInclude<ExtArgs> | null
+  where?: Prisma.SessionTokenWhereInput
+  orderBy?: Prisma.SessionTokenOrderByWithRelationInput | Prisma.SessionTokenOrderByWithRelationInput[]
+  cursor?: Prisma.SessionTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionTokenScalarFieldEnum | Prisma.SessionTokenScalarFieldEnum[]
 }
 
 /**

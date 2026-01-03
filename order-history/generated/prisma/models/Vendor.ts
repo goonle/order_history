@@ -394,10 +394,6 @@ export type VendorScalarRelationFilter = {
   isNot?: Prisma.VendorWhereInput
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type VendorCreateNestedOneWithoutVendorTagsInput = {
   create?: Prisma.XOR<Prisma.VendorCreateWithoutVendorTagsInput, Prisma.VendorUncheckedCreateWithoutVendorTagsInput>
   connectOrCreate?: Prisma.VendorCreateOrConnectWithoutVendorTagsInput

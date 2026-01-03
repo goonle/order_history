@@ -1,6 +1,6 @@
-import VendorSelector from "@/app/components/client/VendorSelector";
-import OrderPanel from "@/app/components/client/OrderPanel";
-import HistoryPanel from "@/app/components/server/HistoryPanel";
+import VendorSelector from "@/app/components/VendorSelector";
+import OrderPanel from "@/app/components/OrderPanel";
+import HistoryPanel from "@/app/components/HistoryPanel";
 import Link from "next/link";
 
 export default function DashboardShell() {
