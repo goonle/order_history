@@ -1,4 +1,4 @@
-"server-only";
+import "server-only";
 import bcrypt from "bcryptjs";
 import { findUserByAccountId } from "@/server/repositories/auth.repo";
 
