@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrderChannelType {
+  email_api
+  sms_manual
+}
+
+enum SendMode {
+  api
+  manual
+}
+
+/**
+ * USER
+ */
+model User {
+  id                Int        @id @default(autoincrement())
+  accountId         String     @unique @map("account_id")
+  passwordEncrypted String     @map("password_encrypted")
+
+  templates         Template[]
+
+  @@map("user")
+}
+
+/**
+ * VENDOR
+ */
+model Vendor {
+  id           Int           @id @default(autoincrement())
+  name         String
+  note         String        @default("")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  modifiedAt   DateTime      @updatedAt @map("modified_at")
+
+  items        Item[]
+  orders       Order[]
+  templates    Template[]
+  orderChannels OrderChannel[]
+  vendorTags   VendorTag[]
+  messages     Message[]
+
+  @@map("vendor")
+}
+
+/**
+ * TAG + JOIN (VendorTag)
+ */
+model Tag {
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
+
+  vendorTags VendorTag[]
+
+  @@map("tag")
+}
+
+model VendorTag {
+  vendorId Int @map("vendor_id")
+  tagId    Int @map("tag_id")
+
+  vendor Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([vendorId, tagId])
+  @@index([tagId])
+  @@map("vendor_tag")
+}
+
+/**
+ * INTEGRATION CREDENTIAL
+ */
+model IntegrationCredential {
+  id                   Int      @id @default(autoincrement())
+  provider             String
+  credentialsEncrypted String   @map("credentials_encrypted")
+  createdAt            DateTime @default(now()) @map("created_at")
+  modifiedAt           DateTime @updatedAt @map("modified_at")
+
+  orderChannels        OrderChannel[]
+
+  @@map("integration_credential")
+}
+
+/**
+ * ORDER CHANNEL
+ */
+model OrderChannel {
+  id               Int              @id @default(autoincrement())
+  vendorId          Int              @map("vendor_id")
+  credentialId      Int?             @map("credential_id")
+
+  type              OrderChannelType
+  destination       String
+
+  subjectTemplateId Int?             @map("subject_template")
+  bodyTemplateId    Int?             @map("body_template")
+
+  sendMode          SendMode         @map("send_mode")
+
+  createdAt         DateTime         @default(now()) @map("created_at")
+  modifiedAt        DateTime         @updatedAt @map("modified_at")
+
+  vendor            Vendor           @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  credential        IntegrationCredential? @relation(fields: [credentialId], references: [id], onDelete: SetNull)
+
+  // Template을 "참조"할지 말지는 너 설계 의도에 따라 유지/삭제 가능
+  subjectTemplate   Template?        @relation("SubjectTemplate", fields: [subjectTemplateId], references: [id], onDelete: SetNull)
+  bodyTemplate      Template?        @relation("BodyTemplate", fields: [bodyTemplateId], references: [id], onDelete: SetNull)
+
+  @@index([vendorId])
+  @@index([credentialId])
+  @@map("order_channel")
+}
+
+/**
+ * TEMPLATE
+ */
+model Template {
+  id         Int      @id @default(autoincrement())
+  name       String
+
+  userId     Int      @map("user_id")
+  vendorId   Int      @map("vendor_id")
+
+  subject    String
+  header     String
+  footer     String
+
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vendor     Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  // OrderChannel에서 subjectTemplate/bodyTemplate로 참조할 때를 위한 역관계
+  subjectUsedByChannels OrderChannel[] @relation("SubjectTemplate")
+  bodyUsedByChannels    OrderChannel[] @relation("BodyTemplate")
+
+  messages   Message[]
+
+  @@index([userId])
+  @@index([vendorId])
+  @@map("template")
+}
+
+/**
+ * CATEGORY / UNIT (네 Item 타입에 FK가 있어서 최소 모델로 추가)
+ */
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+
+  items     Item[]
+
+  @@map("category")
+}
+
+model Unit {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+
+  items     Item[]
+
+  @@map("unit")
+}
+
+/**
+ * ITEM
+ */
+model Item {
+  id          Int      @id @default(autoincrement())
+  name        String
+
+  categoryId  Int      @map("category_id")
+  vendorId    Int      @map("vendor_id")
+
+  priceCents  Int      @map("price_cents")
+  unitId      Int      @map("unit_id")
+
+  imageUrl    String?  @map("image_url")
+  isActive    Boolean  @default(true) @map("is_active")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  modifiedAt  DateTime @updatedAt @map("modified_at")
+
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  vendor      Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Restrict)
+
+  orderItems  OrderItem[]
+
+  @@index([vendorId])
+  @@index([categoryId])
+  @@index([unitId])
+  @@map("item")
+}
+
+/**
+ * ORDER + ORDER ITEM
+ * (OrderHistory / OrderHistoryLine은 이 두 테이블로 "조회해서 만들 수 있는 형태"라 별도 테이블로 만들지 않았어)
+ */
+model Order {
+  id        Int      @id @default(autoincrement())
+  vendorId  Int      @map("vendor_id")
+  orderDate DateTime @map("order_date")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  items     OrderItem[]
+  messages  Message[]
+
+  @@index([vendorId])
+  @@index([orderDate])
+  @@map("order")
+}
+
+model OrderItem {
+  id                   Int      @id @default(autoincrement())
+  orderId              Int      @map("order_id")
+  itemId               Int      @map("item_id")
+  quantity             Int
+  unitPriceCentsAtOrder Int?    @map("unit_price_cents_at_order")
+
+  createdAt            DateTime @default(now()) @map("create_at") // 네 타입이 create_at 라서 그대로 매핑
+
+  order                Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  item                 Item     @relation(fields: [itemId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([itemId])
+  @@map("order_item")
+}
+
+/**
+ * MESSAGE
+ * (supplier_id는 의미상 vendorId로 보이는데, 네 타입 그대로 supplierId로 두고 vendor로 연결했어)
+ */
+model Message {
+  id         Int      @id @default(autoincrement())
+  publicId   String   @unique @map("public_id")
+
+  supplierId Int      @map("supplier_id")
+  orderId    Int      @map("order_id")
+  templateId Int      @map("template_id")
+
+  title      String
+  body       String
+
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
+
+  supplier   Vendor   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  template   Template @relation(fields: [templateId], references: [id], onDelete: Restrict)
+
+  @@index([supplierId])
+  @@index([orderId])
+  @@index([templateId])
+  @@map("message")
+}
