@@ -591,14 +591,6 @@ export type EnumSendModeFieldUpdateOperationsInput = {
   set?: $Enums.SendMode
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type OrderChannelCreateNestedManyWithoutSubjectTemplateInput = {
   create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput> | Prisma.OrderChannelCreateWithoutSubjectTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput[]
   connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput[]

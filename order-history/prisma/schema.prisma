@@ -35,6 +35,8 @@ model User {
 
   sessions          SessionToken[]
 
+  vendors           Vendor[]
+
   @@map("user")
 }
 
@@ -67,6 +69,9 @@ model Vendor {
   note         String        @default("")
   createdAt    DateTime      @default(now()) @map("created_at")
   modifiedAt   DateTime      @updatedAt @map("modified_at")
+
+  userId       Int?          @map("user_id")
+  user         User?         @relation(fields:[userId], references: [id])
 
   items        Item[]
   orders       Order[]

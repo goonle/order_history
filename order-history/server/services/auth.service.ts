@@ -1,18 +1,19 @@
 import "server-only";
 import bcrypt from "bcryptjs";
 import { findUserByAccountId } from "@/server/repositories/auth.repo";
+import { ValidationError, AuthError } from "@/domain/errors";
 
-export async function authenticateUser(accountId: string, password: string): Promise<{ ok: boolean; message: string; status: number; userId: number }> {
+export async function authenticateUser(accountId: string, password: string): Promise<number> {
     // Input validation
     if (!accountId || !password) {
-        return { ok: false, message: "Missing fields" , status: 400, userId: -1};
+        throw new ValidationError("Account ID and password are required");
     }
     // DB lookup for user
     const user = await findUserByAccountId(accountId);
-    if (!user) return { ok: false, message: "Invalid credentials" , status: 400, userId: -1};
+    if (!user) throw new AuthError("Invalid credentials");
     // check password
     const ok = await bcrypt.compare(password, user.passwordEncrypted);
-    if (!ok) return { ok: false, message: "Invalid credentials" , status: 400, userId: -1};
+    if (!ok) throw new AuthError("Invalid credentials");
 
-    return { ok: true, message: "Authenticated", status: 200, userId: user.id };
+    return user.id;
 } 

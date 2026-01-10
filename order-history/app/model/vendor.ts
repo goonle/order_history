@@ -4,6 +4,6 @@ export type Vendor = {
 
     note: string;
 
-    created_at: Date;
-    modified_at: Date;
+    // created_at: Date;
+    // modified_at: Date;
 }

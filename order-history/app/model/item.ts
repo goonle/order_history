@@ -11,6 +11,6 @@ export type Item = {
     image_url?: string;
     is_active: boolean; // being sold
     
-    created_at: Date;
-    modified_at: Date; 
+    // created_at: Date;
+    // modified_at: Date; 
 }

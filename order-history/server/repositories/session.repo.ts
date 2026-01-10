@@ -8,3 +8,7 @@ export async function insertSession(params: {
 }) {
     return prisma.sessionToken.create({ data: params });
 }
+
+export async function getSessionByTokenHash(tokenHash: string) {
+    return prisma.sessionToken.findUnique({ where: { tokenHash , expiresAt: { gt: new Date() }, revokedAt: null } });
+}

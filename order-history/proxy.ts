@@ -9,7 +9,12 @@ export function proxy(request: NextRequest) {
     const isLoginPage = path === "/login" || path === "/";
     const isApiLogin = request.nextUrl.pathname.startsWith("/api/auth/login");
 
-    if (isLoginPage || isApiLogin) return NextResponse.next();
+    // if (isLoginPage || isApiLogin ) return NextResponse.next();
+    if(session && (isLoginPage || isApiLogin)) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/dashboard";
+        return NextResponse.redirect(url);
+    }
 
     if (!session) {
         const url = request.nextUrl.clone();

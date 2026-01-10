@@ -2,22 +2,29 @@
 
 import { useState } from "react";
 
-const mockVendors = [
-  { id: 1, name: "Fresh Produce Ltd" },
-  { id: 2, name: "Packaging Co" },
-];
+export default function VendorSelector(
+  props: {
+    items: { id: number; name: string, note: string }[];
+    onSelectVendor: (vendorId: number) => void;
+    optionTitle?: string;
+  }
+) {
 
-export default function VendorSelector() {
-  const [vendorId, setVendorId] = useState<number | null>(null);
+  const [optionId, setOptionId] = useState<number | null>(null);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = Number(e.target.value);
+    setOptionId(selectedId);
+    props.onSelectVendor(selectedId);
+  }
 
   return (
     <select
-      value={vendorId ?? ""}
-      onChange={(e) => setVendorId(Number(e.target.value))}
+      value={optionId ?? ""}
+      onChange={(e) => handleChange(e)}
       className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm"
     >
-      <option value="">Select vendor</option>
-      {mockVendors.map((v) => (
+      <option value="">{props.optionTitle || "Select Options"}</option>
+      {props.items.map((v) => (
         <option key={v.id} value={v.id}>
           {v.name}
         </option>

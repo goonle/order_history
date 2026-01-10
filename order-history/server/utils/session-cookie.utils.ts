@@ -1,5 +1,6 @@
 import "server-only";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export function setSessionCookie(res: NextResponse, sessionToken: string) {
     res.cookies.set("session", sessionToken, {
@@ -9,4 +10,9 @@ export function setSessionCookie(res: NextResponse, sessionToken: string) {
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7 days
     });
+}
+
+export async function getSessionToken() :Promise<string | null> {
+    const cookieStore = await cookies();
+    return cookieStore.get("session")?.value || null;
 }

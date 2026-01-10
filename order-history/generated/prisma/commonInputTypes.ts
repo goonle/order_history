@@ -140,20 +140,6 @@ export type IntNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
 }
 
-export type EnumOrderChannelTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.OrderChannelType | Prisma.EnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumOrderChannelTypeFilter<$PrismaModel> | $Enums.OrderChannelType
-}
-
-export type EnumSendModeFilter<$PrismaModel = never> = {
-  equals?: $Enums.SendMode | Prisma.EnumSendModeFieldRefInput<$PrismaModel>
-  in?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSendModeFilter<$PrismaModel> | $Enums.SendMode
-}
-
 export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
@@ -168,6 +154,20 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
+}
+
+export type EnumOrderChannelTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderChannelType | Prisma.EnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderChannelTypeFilter<$PrismaModel> | $Enums.OrderChannelType
+}
+
+export type EnumSendModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.SendMode | Prisma.EnumSendModeFieldRefInput<$PrismaModel>
+  in?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSendModeFilter<$PrismaModel> | $Enums.SendMode
 }
 
 export type EnumOrderChannelTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -366,20 +366,6 @@ export type NestedIntNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
 }
 
-export type NestedEnumOrderChannelTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.OrderChannelType | Prisma.EnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumOrderChannelTypeFilter<$PrismaModel> | $Enums.OrderChannelType
-}
-
-export type NestedEnumSendModeFilter<$PrismaModel = never> = {
-  equals?: $Enums.SendMode | Prisma.EnumSendModeFieldRefInput<$PrismaModel>
-  in?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSendModeFilter<$PrismaModel> | $Enums.SendMode
-}
-
 export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
@@ -405,6 +391,20 @@ export type NestedFloatNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumOrderChannelTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.OrderChannelType | Prisma.EnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OrderChannelType[] | Prisma.ListEnumOrderChannelTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOrderChannelTypeFilter<$PrismaModel> | $Enums.OrderChannelType
+}
+
+export type NestedEnumSendModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.SendMode | Prisma.EnumSendModeFieldRefInput<$PrismaModel>
+  in?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SendMode[] | Prisma.ListEnumSendModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSendModeFilter<$PrismaModel> | $Enums.SendMode
 }
 
 export type NestedEnumOrderChannelTypeWithAggregatesFilter<$PrismaModel = never> = {

@@ -109,7 +109,8 @@ export const VendorScalarFieldEnum = {
   name: 'name',
   note: 'note',
   createdAt: 'createdAt',
-  modifiedAt: 'modifiedAt'
+  modifiedAt: 'modifiedAt',
+  userId: 'userId'
 } as const
 
 export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
