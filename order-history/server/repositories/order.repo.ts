@@ -9,6 +9,10 @@ export async function findVendorsByUser(userId: number) {
 
 export async function findByUserAndVendor(vendorId: number) {
     return prisma.item.findMany({
+        include: {
+            category: { select: { id: true, name: true } },
+            unit: { select: { id: true, name: true } },
+        },
         where: {
             vendorId
         }

@@ -7,7 +7,7 @@ export function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
     const isLoginPage = path === "/login" || path === "/";
-    const isApiLogin = request.nextUrl.pathname.startsWith("/api/auth/login");
+    const isApiLogin = path.startsWith("/api/auth/login");
 
     // if (isLoginPage || isApiLogin ) return NextResponse.next();
     if(session && (isLoginPage || isApiLogin)) {
@@ -24,5 +24,5 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
 }
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|.*\\..*).*)"],
+  matcher: ["/((?!_next|favicon.ico|.*\\..*|login|api/auth/login).*)",],
 };

@@ -3,7 +3,6 @@ import {
     ForbiddenError,
     NotFoundError,
     ValidationError,
-    InternalServerError
 } from "@/domain/errors";
 
 import { ErrorCode } from "@/shared/errors-codes";

@@ -14,3 +14,8 @@ export type Item = {
     // created_at: Date;
     // modified_at: Date; 
 }
+
+export type ItemWithMeta = Item & {
+    category: { id: number; name: string; };
+    unit: { id: number; name: string; };
+}

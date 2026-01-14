@@ -1,9 +1,18 @@
-import DashboardShell from "../components/DashboardShell";
+import DashboardShell from "../components/dashboard/DashboardShell";
+import { listVendorsAction } from "@/server/actions/order.action";
+import { Vendor } from "@/app/model/vendor";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const res = await listVendorsAction();
+  if (!res.ok) {
+    throw new Error("Failed to load vendors");
+  }
+
+  const vendors: Vendor[] = res.data.vendorList;
+
   return (
-    <div className="min-h-screen bg-[#191D26] text-slate-100">
-        <DashboardShell />
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <DashboardShell initialVendors={vendors} />
     </div>
   );
 }
