@@ -1,6 +1,6 @@
 "use server";
 
-import { getItemListByVendor, getVendorListByUser, createVendorForUser } from "../services/order.service";
+import { getItemListByVendor, getVendorListByUser, createVendorForUser, updateVendorForUser, deleteVendorForUser } from "../services/order.service";
 
 import { withActionResult } from "../utils/error.utils";
 
@@ -68,5 +68,19 @@ export async function createVendorAction(vendorData: VendorData): Promise<Action
     return await withActionResult(async () => {
         const vendor = await createVendorForUser(vendorData);
         return { vendor: vendor };
+    });
+};
+
+export async function updateVendorAction(vendorDataWithId : AppVendor): Promise<ActionResult<{ vendor: AppVendor }>> {
+    return await withActionResult(async ()=> {
+        const vendor = await updateVendorForUser(vendorDataWithId);
+        return { vendor: vendor };
+    })
+};
+
+export async function deleteVendorAction(vendorId: number): Promise<ActionResult<{ count: number }>> {
+    return await withActionResult(async ()=> {
+        const result = await deleteVendorForUser(vendorId);
+        return { count: result.count };
     });
 };

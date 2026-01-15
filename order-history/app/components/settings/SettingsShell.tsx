@@ -4,12 +4,12 @@ import { useMemo, useState, useEffect } from "react";
 
 import VendorPanel from "./VendorPanel";
 import ItemPanel from "./ItemPanel";
-import Spinner from "../Spinner";
+import Spinner from "@/app/components/ui/Spinner";
 
 import { Vendor } from "@/app/model/vendor";
 import { VendorData } from "@/app/model/vendor";
 
-import { listVendorsAction, createVendorAction } from "@/server/actions/order.action";
+import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction } from "@/server/actions/order.action";
 
 const uid = () => Math.floor(Math.random() * 1000000);
 
@@ -52,18 +52,20 @@ export default function SettingsShell() {
     await fetchVendorsAndSet();
   }
 
-  function deleteVendor(vendorId: number) {
-    setVendors((prev) => prev.filter((v) => v.id !== vendorId));
-    // 선택 vendor가 삭제되면 다른 vendor로 이동
-    if (selectedVendorId === vendorId) {
-      const next = vendors.find((v) => v.id !== vendorId)?.id ?? 0;
-      setSelectedVendorId(next);
-    }
+  async function updateVendor(vendorDataWithId : Vendor) {
+    const updatedVendor = await updateVendorAction(vendorDataWithId);
+    if (!updatedVendor.ok) return;
+
+    await fetchVendorsAndSet();
   }
 
-  function renameVendor(vendorId: number, name: string) {
-    setVendors((prev) => prev.map((v) => (v.id === vendorId ? { ...v, name } : v)));
+  async function deleteVendor(vendorId: number) {
+    const deleteVendor = await deleteVendorAction(vendorId);
+    if (!deleteVendor.ok) return;
+
+    await fetchVendorsAndSet();
   }
+
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -105,8 +107,8 @@ export default function SettingsShell() {
           selectedVendorId={selectedVendorId}
           setSelectedVendorId={setSelectedVendorId}
           addVendor={addVendor}
+          updateVendor={updateVendor}
           deleteVendor={deleteVendor}
-          renameVendor={renameVendor}
         />
         {/* RIGHT: Items */}
         <ItemPanel

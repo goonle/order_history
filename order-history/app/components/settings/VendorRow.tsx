@@ -5,14 +5,14 @@ export default function VendorRow({
     vendor,
     selected,
     onSelect,
-    onRename,
     onDelete,
+    onUpdate,
 }: {
     vendor: Vendor;
     selected: boolean;
     onSelect: () => void;
-    onRename: (name: string) => void;
     onDelete: () => void;
+    onUpdate: (vendorDataWithId: Vendor) => void;
 }) {
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState(vendor.name);
@@ -21,7 +21,9 @@ export default function VendorRow({
     function save() {
         const n = name.trim();
         if (!n) return;
-        onRename(n);
+
+        onUpdate({ id: vendor.id, name: n, note: note } as Vendor);
+
         setEditing(false);
     }
 

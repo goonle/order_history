@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import ItemAdd from "./ItemAdd";
 import ItemRow from "./ItemRow";
 import EmptyCard from "./EmptyCard";
-import Spinner from "../Spinner";
+import Spinner from "@/app/components/ui/Spinner";
 
 import { ItemWithMeta } from "@/app/model/item";
 import { Vendor } from "@/app/model/vendor";

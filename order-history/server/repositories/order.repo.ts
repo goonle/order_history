@@ -29,3 +29,34 @@ export async function createVendor(userId: number, VendorData: VendorData) : Pro
         }
     });
 }
+
+export async function updateVendor(userId: number, vendorDataWithId : Vendor) : Promise<Vendor> {
+    return prisma.vendor.updateMany({
+        where: {
+            id: vendorDataWithId.id,
+            userId: userId
+        },
+        data: {
+            name: vendorDataWithId.name,
+            note: vendorDataWithId.note
+        }
+    }).then( async (res) => {
+        if (res.count === 0) {
+            throw new Error("No vendor updated");
+        }
+        return prisma.vendor.findUniqueOrThrow({
+            where: {
+                id: vendorDataWithId.id
+            }
+        });
+    });
+}
+
+export async function deleteVendor(userId: number, vendorId: number) {
+    return prisma.vendor.deleteMany({
+        where: {
+            id: vendorId,
+            userId: userId
+        }
+    });
+}

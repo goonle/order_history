@@ -3,7 +3,7 @@ import EmptyCard from "./EmptyCard";
 import VendorRow from "./VendorRow";
 import { Vendor } from "@/app/model/vendor";
 import { VendorData } from "@/app/model/vendor";
-import Spinner from "../Spinner";
+import Spinner from "@/app/components/ui/Spinner";
 
 export default function VendorPanel(props: {
   loading?: boolean;
@@ -11,8 +11,8 @@ export default function VendorPanel(props: {
   selectedVendorId: number;
   setSelectedVendorId: (vendorId: number) => void;
   addVendor: (vendorData: VendorData) => void;
+  updateVendor : (vendorDataWithId: Vendor) => void;
   deleteVendor: (vendorId: number) => void;
-  renameVendor: (vendorId: number, name: string) => void;
 }) {
   const {
     loading,
@@ -20,7 +20,6 @@ export default function VendorPanel(props: {
     selectedVendorId,
     setSelectedVendorId,
     addVendor, deleteVendor,
-    renameVendor
   } = props;
 
   return (
@@ -49,8 +48,8 @@ export default function VendorPanel(props: {
                 vendor={v}
                 selected={v.id === selectedVendorId}
                 onSelect={() => setSelectedVendorId(v.id)}
-                onRename={(name) => renameVendor(v.id, name)}
                 onDelete={() => deleteVendor(v.id)}
+                onUpdate={(vendorDataWithId: Vendor) => props.updateVendor(vendorDataWithId)}
               />
             ))
           )}
