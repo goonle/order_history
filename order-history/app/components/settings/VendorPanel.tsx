@@ -2,15 +2,15 @@ import VendorAdd from "./VendorAdd";
 import EmptyCard from "./EmptyCard";
 import VendorRow from "./VendorRow";
 import { Vendor } from "@/app/model/vendor";
+import { VendorData } from "@/app/model/vendor";
 import Spinner from "../Spinner";
-import { use, useEffect } from "react";
 
 export default function VendorPanel(props: {
   loading?: boolean;
   vendors: Vendor[];
   selectedVendorId: number;
   setSelectedVendorId: (vendorId: number) => void;
-  addVendor: (name: string) => void;
+  addVendor: (vendorData: VendorData) => void;
   deleteVendor: (vendorId: number) => void;
   renameVendor: (vendorId: number, name: string) => void;
 }) {

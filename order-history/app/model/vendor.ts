@@ -7,3 +7,8 @@ export type Vendor = {
     // created_at: Date;
     // modified_at: Date;
 }
+
+export type VendorData = {
+    name: string;
+    note: string;
+}

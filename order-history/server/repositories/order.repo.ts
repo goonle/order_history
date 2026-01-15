@@ -1,5 +1,6 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { Vendor, VendorData } from "@/app/model/vendor";
 
 export async function findVendorsByUser(userId: number) {
     return prisma.vendor.findMany({
@@ -17,4 +18,14 @@ export async function findByUserAndVendor(vendorId: number) {
             vendorId
         }
     })
+}
+
+export async function createVendor(userId: number, VendorData: VendorData) : Promise<Vendor> {
+    return prisma.vendor.create({
+        data: {
+            userId,
+            name: VendorData.name,
+            note: VendorData.note
+        }
+    });
 }

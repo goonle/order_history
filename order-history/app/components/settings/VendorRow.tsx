@@ -16,6 +16,7 @@ export default function VendorRow({
 }) {
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState(vendor.name);
+    const [note, setNote] = useState(vendor.note);
 
     function save() {
         const n = name.trim();
@@ -33,15 +34,24 @@ export default function VendorRow({
         >
             <button type="button" onClick={onSelect} className="flex-1 text-left">
                 {editing ? (
-                    <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm outline-none focus:border-slate-400"
-                    />
+                    <>
+                        <input
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm outline-none focus:border-slate-400"
+                        />
+                        <input
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            className="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm outline-none focus:border-slate-400"
+                        />
+                    </>
                 ) : (
-                    <div className="text-sm font-medium text-slate-800">{vendor.name}</div>
+                    <>
+                        <div className="text-sm font-medium text-slate-800">{vendor.name}</div>
+                        <div className="text-xs text-slate-500">{vendor.note}</div>
+                    </>
                 )}
-                <div className="text-xs text-slate-500">{vendor.id}</div>
             </button>
 
             <div className="ml-3 flex items-center gap-2">
@@ -69,7 +79,7 @@ export default function VendorRow({
                             onClick={() => setEditing(true)}
                             className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
                         >
-                            Rename
+                            Update
                         </button>
                         <button
                             type="button"

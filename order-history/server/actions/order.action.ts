@@ -1,16 +1,15 @@
 "use server";
 
-import { getItemListByVendor, getVendorListByUser } from "../services/order.service";
+import { getItemListByVendor, getVendorListByUser, createVendorForUser } from "../services/order.service";
 
 import { withActionResult } from "../utils/error.utils";
 
 import { ActionResult } from "@/shared/action-result";
-import { Item as PrismaItem } from "@/generated/prisma/browser";
 import { Vendor } from "@/generated/prisma/client";
 
-import { Item as AppItem } from "@/app/model/item";
 import { ItemWithMeta } from "@/app/model/item";
 import { Vendor as AppVendor } from "@/app/model/vendor";
+import { VendorData } from "@/app/model/vendor";
 
 import { Prisma } from "@/generated/prisma/browser";
 
@@ -21,6 +20,7 @@ type PrismaItemWithMeta = Prisma.ItemGetPayload<{
   };
 }>;
 
+// Item
 function mapPrismaItemToAppItem(prismaItem: PrismaItemWithMeta): ItemWithMeta {
     return {
         id: prismaItem.id,
@@ -34,15 +34,7 @@ function mapPrismaItemToAppItem(prismaItem: PrismaItemWithMeta): ItemWithMeta {
         category: { id: prismaItem.category.id, name: prismaItem.category.name },
         unit: { id: prismaItem.unit.id, name: prismaItem.unit.name },
     };
-}
-function mapPrismaVendorToAppVendor(prismaVendor: Vendor): AppVendor {
-    return {
-        id: prismaVendor.id,
-        name: prismaVendor.name,
-        note: prismaVendor.note,
-    };
-}
-
+}    
 export async function listVendorItemsAction(vendorId: number): Promise<ActionResult<{ itemList: ItemWithMeta[] }>> {
     return await withActionResult(async () => {
         const itemList = await getItemListByVendor(vendorId);
@@ -54,6 +46,14 @@ export async function listVendorItemsAction(vendorId: number): Promise<ActionRes
 }
 
 
+// Vendor
+function mapPrismaVendorToAppVendor(prismaVendor: Vendor): AppVendor {
+    return {
+        id: prismaVendor.id,
+        name: prismaVendor.name,
+        note: prismaVendor.note,
+    };    
+}    
 
 export async function listVendorsAction(): Promise<ActionResult<{ vendorList: AppVendor[] }>> {
     return await withActionResult(async () => {
@@ -63,3 +63,10 @@ export async function listVendorsAction(): Promise<ActionResult<{ vendorList: Ap
         return { vendorList: mappedVendors };
     })
 }
+
+export async function createVendorAction(vendorData: VendorData): Promise<ActionResult<{ vendor: AppVendor }>> {
+    return await withActionResult(async () => {
+        const vendor = await createVendorForUser(vendorData);
+        return { vendor: vendor };
+    });
+};

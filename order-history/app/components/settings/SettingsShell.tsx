@@ -6,31 +6,38 @@ import VendorPanel from "./VendorPanel";
 import ItemPanel from "./ItemPanel";
 import Spinner from "../Spinner";
 
-import { ItemWithMeta } from "@/app/model/item";
 import { Vendor } from "@/app/model/vendor";
+import { VendorData } from "@/app/model/vendor";
 
-import { listVendorsAction } from "@/server/actions/order.action";
+import { listVendorsAction, createVendorAction } from "@/server/actions/order.action";
 
 const uid = () => Math.floor(Math.random() * 1000000);
 
 export default function SettingsShell() {
-  // mock data (나중에 API로 교체)
+
   const [vendors, setVendors] = useState<Vendor[]>([]);
 
   const [loadingVendors, setLoadingVendors] = useState<boolean>(false);
   const [selectedVendorId, setSelectedVendorId] = useState<number>(vendors[0]?.id ?? 0);
 
   // load vendors from server
+  async function fetchVendorsAndSet() {
+    setLoadingVendors(true);
+    const res = await listVendorsAction();
+    if (res.ok) {
+      const list = res.data.vendorList || [];
+      setVendors(list);
+      setSelectedVendorId((prev) =>
+        prev && list.some((v) => v.id === prev) ? prev : (list[0]?.id ?? 0)
+      );
+    }
+    setLoadingVendors(false);
+  }
+
   useEffect(() => {
-    const fetchVendors = async () => {
-      setLoadingVendors(true);
-      const res = await listVendorsAction();
-      if (res.ok) {
-        setVendors(res.data.vendorList || []);
-      }
-      setLoadingVendors(false);
-    };
-    fetchVendors();
+    (async () => {
+      await fetchVendorsAndSet();
+    })();
   }, []);
 
   const selectedVendor = useMemo(
@@ -38,10 +45,11 @@ export default function SettingsShell() {
     [vendors, selectedVendorId]
   );
 
-  function addVendor(name: string) {
-    const v: Vendor = { id: uid(), name, note: "" };
-    setVendors((prev) => [v, ...prev]);
-    setSelectedVendorId(v.id);
+  async function addVendor(vendorData: VendorData) {
+    const newVendor = await createVendorAction(vendorData);
+    if (!newVendor.ok) return;
+
+    await fetchVendorsAndSet();
   }
 
   function deleteVendor(vendorId: number) {
