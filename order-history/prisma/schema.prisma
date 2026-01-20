@@ -81,6 +81,7 @@ model Vendor {
   messages     Message[]
 
   @@map("vendor")
+  @@unique([id, userId])
 }
 
 /**

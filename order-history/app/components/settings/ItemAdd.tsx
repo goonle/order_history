@@ -1,47 +1,93 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { Unit, Category, Item } from "@/app/model/item";
+import { createItemAction } from "@/server/actions/order.action";
+
+type Payload = {
+    name: string;
+    unitId: number;
+    categoryId: number;
+    price_cents?: number;
+
+}
 
 export default function ItemAdd({
-        disabled,
-        selectedVendorId,
-    }: {
-        disabled: boolean;
-        selectedVendorId: number;
-    }) {
+    disabled,
+    selectedVendorId,
+    units,
+    categories,
+    showLoading,
+    hideLoading,
+    refreshItems
+}: {
+    disabled: boolean;
+    selectedVendorId: number;
+    units: Unit[];
+    categories: Category[];
+    showLoading: () => void;
+    hideLoading: () => void;
+    refreshItems: () => Promise<void>;
+}) {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    const [unit, setUnit] = useState("ea");
-    const [category, setCategory] = useState("Uncategorized");
+
+    const [unitId, setUnitId] = useState<number>(units[0]?.id ?? 0);
+    const [categoryId, setCategoryId] = useState<number>(categories[0]?.id ?? 0);
+
     const [priceCents, setPriceCents] = useState<number>(0);
 
-    function submit() {
+    async function submit() {
         const n = name.trim();
-        const u = unit.trim();
-        if (!n || !u) return;
-        // onAdd({ name: n, unit: u, category: category, price_cents: priceCents });
-        setName("");
-        setUnit("ea");
-        setOpen(false);
+
+        if (!n || !unitId || !categoryId) return;
+
+        showLoading();
+        
+        try {
+            const payload: Payload = {
+                name: n,
+                unitId: unitId,
+                categoryId: categoryId,
+                price_cents: priceCents,
+            };
+            await addItem(payload);  
+        } finally {
+            hideLoading();            
+        }
+
     }
 
-    function addItem(payload: {
-        name: string;
-        unit: { id: number, name: string };
-        category: { id: number, name: string };
-        price_cents?: number;
-    }) {
+    async function addItem(payload: Payload) {
         if (!selectedVendorId) return;
 
-        const item = {
-            vendor_id: selectedVendorId,
+        const itemData = {
             name: payload.name,
-            unit_id: payload.unit.id,
-            category_id: payload.category.id,
-            price_cents: payload.price_cents ?? 0,
-            is_active: true,
+            unitId: payload.unitId,
+            categoryId: payload.categoryId,
+            price_cents: payload.price_cents,
+            vendor_id: selectedVendorId
         };
-        //backend
-        // setItems((prev) => [item, ...prev]);
+        const res = await createItemAction(itemData);
+        if (res.ok) {
+            initValues();
+            setOpen(false);
+            await refreshItems();
+        } {
+            hideLoading();
+        }
     }
+
+    function initValues() {
+        setName("");
+        setUnitId(units[0]?.id ?? 0);
+        setCategoryId(categories[0]?.id ?? 0);
+        setPriceCents(0);
+    }
+
+    useEffect(() => {
+        if (open) {
+            initValues();
+        }
+    }, [open]);
 
     return (
         <div className="relative">
@@ -56,7 +102,9 @@ export default function ItemAdd({
 
             {open && (
                 <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg">
-                    <label className="mb-1 block text-xs font-medium text-slate-600">Item name</label>
+                    <label className="mb-1 block text-xs font-medium text-slate-600">
+                        Item name
+                    </label>
                     <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -64,12 +112,59 @@ export default function ItemAdd({
                         className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
                     />
 
-                    <label className="mb-1 mt-3 block text-xs font-medium text-slate-600">Unit</label>
-                    <input
-                        value={unit}
-                        onChange={(e) => setUnit(e.target.value)}
-                        placeholder="e.g. kg / box / ea"
+                    {/* Unit */}
+                    <label className="mb-1 mt-3 block text-xs font-medium text-slate-600">
+                        Unit
+                    </label>
+                    <select
+                        value={unitId}
+                        onChange={(e) => setUnitId(Number(e.target.value))}
                         className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
+                        disabled={units.length === 0}
+                    >
+                        {units.length === 0 ? (
+                            <option value={0}>No units</option>
+                        ) : (
+                            units.map((u) => (
+                                <option key={u.id} value={u.id}>
+                                    {u.name}
+                                </option>
+                            ))
+                        )}
+                    </select>
+
+                    {/* Category */}
+                    <label className="mb-1 mt-3 block text-xs font-medium text-slate-600">
+                        Category
+                    </label>
+                    <select
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(Number(e.target.value))}
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
+                        disabled={categories.length === 0}
+                    >
+                        {categories.length === 0 ? (
+                            <option value={0}>No categories</option>
+                        ) : (
+                            categories.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                    {c.name}
+                                </option>
+                            ))
+                        )}
+                    </select>
+
+                    {/* Price */}
+                    <label className="mb-1 mt-3 block text-xs font-medium text-slate-600">
+                        Price (cents)
+                    </label>
+                    <input
+                        type="number"
+                        value={priceCents}
+                        onChange={(e) => setPriceCents(Number(e.target.value))}
+                        placeholder="e.g. 1299"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
+                        min={0}
                     />
 
                     <div className="mt-3 flex justify-end gap-2">
@@ -82,8 +177,15 @@ export default function ItemAdd({
                         </button>
                         <button
                             type="button"
-                            onClick={submit}
-                            className="rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                            onClick={() => submit()}
+                            className="rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            disabled={
+                                disabled ||
+                                !selectedVendorId ||
+                                !name.trim() ||
+                                units.length === 0 ||
+                                categories.length === 0
+                            }
                         >
                             Save
                         </button>

@@ -6,12 +6,10 @@ import VendorPanel from "./VendorPanel";
 import ItemPanel from "./ItemPanel";
 import Spinner from "@/app/components/ui/Spinner";
 
-import { Vendor } from "@/app/model/vendor";
-import { VendorData } from "@/app/model/vendor";
+import { Vendor, VendorData} from "@/app/model/vendor";
 
-import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction } from "@/server/actions/order.action";
-
-const uid = () => Math.floor(Math.random() * 1000000);
+import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction, fetchUnitsAndCategoriesAction } from "@/server/actions/order.action";
+import { Unit, Category } from "@/app/model/item";
 
 export default function SettingsShell() {
 
@@ -19,6 +17,9 @@ export default function SettingsShell() {
 
   const [loadingVendors, setLoadingVendors] = useState<boolean>(false);
   const [selectedVendorId, setSelectedVendorId] = useState<number>(vendors[0]?.id ?? 0);
+
+  const [ units, setUnits ] = useState<Unit[]>([]);
+  const [ categories, setCategories ] = useState<Category[]>([]);
 
   // load vendors from server
   async function fetchVendorsAndSet() {
@@ -37,6 +38,7 @@ export default function SettingsShell() {
   useEffect(() => {
     (async () => {
       await fetchVendorsAndSet();
+      await fetchUnitsAndCategories();
     })();
   }, []);
 
@@ -64,6 +66,14 @@ export default function SettingsShell() {
     if (!deleteVendor.ok) return;
 
     await fetchVendorsAndSet();
+  }
+
+  async function fetchUnitsAndCategories() {
+    const res = await fetchUnitsAndCategoriesAction();
+    if (res.ok) {
+      setUnits(res.data.unitList || []);
+      setCategories(res.data.categoryList || []);
+    }
   }
 
 
@@ -113,6 +123,8 @@ export default function SettingsShell() {
         {/* RIGHT: Items */}
         <ItemPanel
           selectedVendor={selectedVendor}
+          units={units}
+          categories={categories}
         />
       </div>
     </main>

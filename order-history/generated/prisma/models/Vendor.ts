@@ -256,6 +256,7 @@ export type VendorOrderByWithRelationInput = {
 
 export type VendorWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  id_userId?: Prisma.VendorIdUserIdCompoundUniqueInput
   AND?: Prisma.VendorWhereInput | Prisma.VendorWhereInput[]
   OR?: Prisma.VendorWhereInput[]
   NOT?: Prisma.VendorWhereInput | Prisma.VendorWhereInput[]
@@ -271,7 +272,7 @@ export type VendorWhereUniqueInput = Prisma.AtLeast<{
   orderChannels?: Prisma.OrderChannelListRelationFilter
   vendorTags?: Prisma.VendorTagListRelationFilter
   messages?: Prisma.MessageListRelationFilter
-}, "id">
+}, "id" | "id_userId">
 
 export type VendorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -390,6 +391,11 @@ export type VendorListRelationFilter = {
 
 export type VendorOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type VendorIdUserIdCompoundUniqueInput = {
+  id: number
+  userId: number
 }
 
 export type VendorCountOrderByAggregateInput = {

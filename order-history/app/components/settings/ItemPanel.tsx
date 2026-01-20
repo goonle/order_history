@@ -7,40 +7,44 @@ import ItemRow from "./ItemRow";
 import EmptyCard from "./EmptyCard";
 import Spinner from "@/app/components/ui/Spinner";
 
-import { ItemWithMeta } from "@/app/model/item";
+import { ItemWithMeta, Unit, Category } from "@/app/model/item";
 import { Vendor } from "@/app/model/vendor";
 
-import { listVendorItemsAction } from "@/server/actions/order.action";
+import { listVendorItemsAction, updateItemAction, deleteItemAction } from "@/server/actions/order.action";
 
 export default function ItemPanel(props: {
     selectedVendor: Vendor | null;
+    units: Unit[];
+    categories: Category[];
 }) {
-    const { selectedVendor } = props;
+    const { selectedVendor, units, categories } = props;
     const selectedVendorId = selectedVendor ? selectedVendor.id : 0;
 
     const [items, setItems] = useState<ItemWithMeta[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
+    async function fetchItems() {
         if (!selectedVendor) {
             return;
         }
+        setLoading(true);
 
-        const fetchItems = async () => {
-            setLoading(true);
+        const res = await listVendorItemsAction(selectedVendor.id);
+        if (res.ok) {
+            setItems(res.data.itemList || []);
+            setLoading(false);
+        } else {
+            setItems([]);
+            setLoading(false);
+        }
+    }
 
-            const res = await listVendorItemsAction(selectedVendor.id);
+    useEffect(() => {
+        (async () => {
+            await fetchItems();
+        })();
+    }, [items.length, selectedVendor]);
 
-            if (res.ok) {
-                setItems(res.data.itemList || []);
-                setLoading(false);
-            } else {
-                setItems([]);
-                setLoading(false);
-            } 
-        };
-        fetchItems();
-    }, [selectedVendor]);
 
     const filteredItems = useMemo(
         () => items.filter((it) => it.vendor_id === selectedVendorId),
@@ -48,16 +52,27 @@ export default function ItemPanel(props: {
     );
 
     function deleteItem(itemId: number) {
-        // setItems((prev) => prev.filter((it) => it.id !== itemId));
+        setLoading(true)
+        return deleteItemAction(itemId).then((res) => {
+            if (res.ok) {
+                fetchItems();
+            }
+        });
     }
 
-    // function updateItem(itemId: number, patch: Partial<Pick<ItemWithMeta, "name" | "unit">>) {
-    function updateItem(itemId: number) {
-        // setItems((prev) => prev.map((it) => (it.id === itemId ? { ...it, ...patch } : it)));
+    function updateItem(item: ItemWithMeta) {
+        setLoading(true)
+        return updateItemAction(item).then((res) => {
+            if (res.ok) {
+                fetchItems();
+            }
+        });
     }
+
+
     return (
         <section className="relative rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            { loading && (
+            {loading && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/70 backdrop-blur-sm">
                     <Spinner />
                 </div>
@@ -75,7 +90,15 @@ export default function ItemPanel(props: {
                         )}
                     </p>
                 </div>
-                <ItemAdd disabled={!selectedVendorId} selectedVendorId={selectedVendorId} />
+                <ItemAdd
+                    disabled={!selectedVendorId}
+                    selectedVendorId={selectedVendorId}
+                    units={units}
+                    showLoading={()=> setLoading(true)}
+                    hideLoading={()=> setLoading(false)}
+                    refreshItems={() => fetchItems()}
+                    categories={categories}
+                />
             </div>
             <div className="min-h-[220px]">
                 <div className="space-y-2">
@@ -84,12 +107,14 @@ export default function ItemPanel(props: {
                     ) : filteredItems.length === 0 ? (
                         <EmptyCard title="No items yet" desc="Add your first item for this vendor." />
                     ) : (
-                        filteredItems.map((it) => (
+                        filteredItems.map((it: ItemWithMeta) => (
                             <ItemRow
                                 key={it.id}
                                 item={it}
-                            // onDelete={() => deleteItem(it.id)}
-                            // onChange={(patch) => updateItem(it.id, patch)}
+                                units={units}
+                                categories={categories}
+                                onUpdate={(updItem) => updateItem(updItem)}
+                                onDelete={() => deleteItem(it.id)}
                             />
                         ))
                     )}

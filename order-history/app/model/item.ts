@@ -19,3 +19,12 @@ export type ItemWithMeta = Item & {
     category: { id: number; name: string; };
     unit: { id: number; name: string; };
 }
+
+export type Unit = {
+    id: number;
+    name: string;
+}
+export type Category = {
+    id: number;
+    name: string;
+}

@@ -10,5 +10,5 @@ export async function insertSession(params: {
 }
 
 export async function getSessionByTokenHash(tokenHash: string) {
-    return prisma.sessionToken.findUnique({ where: { tokenHash , expiresAt: { gt: new Date() }, revokedAt: null } });
+    return prisma.sessionToken.findFirst({ where: { tokenHash , expiresAt: { gt: new Date() }, revokedAt: null } });
 }
