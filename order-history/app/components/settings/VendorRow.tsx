@@ -17,6 +17,7 @@ export default function VendorRow({
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState(vendor.name);
     const [note, setNote] = useState(vendor.note);
+    const [confirmingDelete, setConfirmingDelete] = useState(false);
 
     function save() {
         const n = name.trim();
@@ -76,20 +77,41 @@ export default function VendorRow({
                     </>
                 ) : (
                     <>
-                        <button
-                            type="button"
-                            onClick={() => setEditing(true)}
-                            className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Update
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onDelete}
-                            className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
-                        >
-                            Delete
-                        </button>
+                        {confirmingDelete ? (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={() => setConfirmingDelete(false)}
+                                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => onDelete()}
+                                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
+                                >
+                                    Confirm
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={() => setEditing(true)}
+                                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setConfirmingDelete(true)}
+                                    className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        )}
                     </>
                 )}
             </div>

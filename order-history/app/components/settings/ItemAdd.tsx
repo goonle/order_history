@@ -33,7 +33,7 @@ export default function ItemAdd({
     const [unitId, setUnitId] = useState<number>(units[0]?.id ?? 0);
     const [categoryId, setCategoryId] = useState<number>(categories[0]?.id ?? 0);
 
-    const [priceCents, setPriceCents] = useState<number>(0);
+    const [priceCents, setPriceCents] = useState<string>("");
 
     async function submit() {
         const n = name.trim();
@@ -47,7 +47,7 @@ export default function ItemAdd({
                 name: n,
                 unitId: unitId,
                 categoryId: categoryId,
-                price_cents: priceCents,
+                price_cents: Number(priceCents),
             };
             await addItem(payload);  
         } finally {
@@ -67,12 +67,11 @@ export default function ItemAdd({
             vendor_id: selectedVendorId
         };
         const res = await createItemAction(itemData);
+        setOpen(false);
+
         if (res.ok) {
             initValues();
-            setOpen(false);
             await refreshItems();
-        } {
-            hideLoading();
         }
     }
 
@@ -80,7 +79,7 @@ export default function ItemAdd({
         setName("");
         setUnitId(units[0]?.id ?? 0);
         setCategoryId(categories[0]?.id ?? 0);
-        setPriceCents(0);
+        setPriceCents("");
     }
 
     useEffect(() => {
@@ -161,7 +160,7 @@ export default function ItemAdd({
                     <input
                         type="number"
                         value={priceCents}
-                        onChange={(e) => setPriceCents(Number(e.target.value))}
+                        onChange={(e) => setPriceCents(e.target.value)}
                         placeholder="e.g. 1299"
                         className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-slate-400"
                         min={0}

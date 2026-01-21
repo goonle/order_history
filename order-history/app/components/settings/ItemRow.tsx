@@ -20,7 +20,10 @@ export default function ItemRow({
     const [unit, setUnit] = useState(item.unit);
     const [category, setCategory] = useState(item.category);
     const [priceCents, setPriceCents] = useState(item.price_cents);
+    const [confirmingDelete, setConfirmingDelete] = useState(false);
+
     const priceDollars = priceCents / 100;
+
 
     const unitTone = toneFromId(item.unit.id);
     const categoryTone = toneFromId(item.category.id);
@@ -126,20 +129,42 @@ export default function ItemRow({
                     </>
                 ) : (
                     <>
-                        <button
-                            type="button"
-                            onClick={() => setEditing(true)}
-                            className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => onDelete(item.id)}
-                            className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
-                        >
-                            Delete
-                        </button>
+                        {
+                            confirmingDelete ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={() => setConfirmingDelete(false)}
+                                        className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => onDelete(item.id)}
+                                        className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
+                                    >
+                                        Confirm
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditing(true)}
+                                        className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setConfirmingDelete(true)}
+                                        className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            )}
                     </>
                 )}
             </div>
