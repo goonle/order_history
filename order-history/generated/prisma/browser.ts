@@ -97,6 +97,5 @@ export type OrderItem = Prisma.OrderItemModel
  * Model Message
  * *
  *  * MESSAGE
- *  * (supplier_id는 의미상 vendorId로 보이는데, 네 타입 그대로 supplierId로 두고 vendor로 연결했어)
  */
 export type Message = Prisma.MessageModel

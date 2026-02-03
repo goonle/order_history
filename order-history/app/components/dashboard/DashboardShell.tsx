@@ -8,16 +8,18 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Vendor } from "@/app/model/vendor";
 import { ItemWithMeta } from "@/app/model/item";
 import { listVendorItemsAction } from "@/server/actions/order.action";
+import Spinner from "../ui/Spinner";
 
 export default function DashboardShell(props: { initialVendors: Vendor[] }) {
 
     const [vendor, setVendor] = useState<Vendor | null>(null);
     const [vendorItems, setVendorItems] = useState<ItemWithMeta[]>([]);
+    const [loadingItems, setLoadingItems] = useState<boolean>(false);
 
     // select vendor
     const vendorList: Vendor[] = useMemo(() => props.initialVendors, [props.initialVendors]);
     const onSelectVendor = useCallback((vendorId: number) => {
-        if( vendorId === 0 ) {
+        if (vendorId === 0) {
             setVendorItems([]);
             setVendor(null);
             return;
@@ -29,13 +31,17 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
     useEffect(() => {
         // console.log("Selected vendor:", vendor);
         if (!vendor) return;
+        
         const fetchItems = async () => {
+            setLoadingItems(true);
             const res = await listVendorItemsAction(vendor.id);
 
             if (res.ok) {
                 setVendorItems(res.data.itemList || []);
+                setLoadingItems(false);
             } else {
                 setVendorItems([]);
+                setLoadingItems(false);
             }
         };
         fetchItems();
@@ -63,7 +69,20 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
                             onSelectVendor={onSelectVendor}
                             optionTitle="Select Vendor"
                         />
+                        <Link
+                            href={vendor ? `/settings/templates?vendorId=${vendor.id}` : "#"}
+                            className={[
+                                "inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium shadow-sm",
+                                vendor
+                                    ? "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                                    : "cursor-not-allowed border-slate-100 bg-slate-100 text-slate-400",
+                            ].join(" ")}
+                        >
+                            <span>📋</span>
+                            Templates
+                        </Link>
 
+                        {/* General Settings */}
                         <Link
                             href="/settings"
                             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-indigo-100"
@@ -75,7 +94,14 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
                 </div>
             </header>
 
-            <main className="mx-auto max-w-6xl p-6">
+            <main className="relative mx-auto max-w-6xl p-6">
+                {
+                    loadingItems && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/70 backdrop-blur-sm">
+                            <Spinner />
+                        </div>
+                    )
+                }
                 <div className="grid gap-6 md:grid-cols-2">
                     <OrderPanel vendorItems={vendorItems} />
                     <HistoryPanel />

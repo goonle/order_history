@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import { Unit, Category, Item } from "@/app/model/item";
+import { useState, useEffect } from "react";
+import { Unit, Category } from "@/app/model/item";
 import { createItemAction } from "@/server/actions/order.action";
 
 type Payload = {

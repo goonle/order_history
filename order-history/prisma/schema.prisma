@@ -27,15 +27,15 @@ enum SendMode {
  * USER
  */
 model User {
-  id                Int        @id @default(autoincrement())
-  accountId         String     @unique @map("account_id")
-  passwordEncrypted String     @map("password_encrypted")
+  id                Int    @id @default(autoincrement())
+  accountId         String @unique @map("account_id")
+  passwordEncrypted String @map("password_encrypted")
 
-  templates         Template[]
+  templates Template[]
 
-  sessions          SessionToken[]
+  sessions SessionToken[]
 
-  vendors           Vendor[]
+  vendors Vendor[]
 
   @@map("user")
 }
@@ -44,16 +44,16 @@ model User {
  * SESSON TOKEN
  */
 model SessionToken {
-  id           String          @id @default(cuid())
-  
-  userId       Int
-  user         User            @relation(fields:[userId], references: [id], onDelete: Cascade)
+  id String @id @default(cuid())
 
-  tokenHash    String          @unique
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt    DateTime        @default(now())
-  expiresAt    DateTime
-  revokedAt    DateTime?
+  tokenHash String @unique
+
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
 
   @@index([userId])
   @@index([expiresAt])
@@ -64,24 +64,28 @@ model SessionToken {
  * VENDOR
  */
 model Vendor {
-  id           Int           @id @default(autoincrement())
-  name         String
-  note         String        @default("")
-  createdAt    DateTime      @default(now()) @map("created_at")
-  modifiedAt   DateTime      @updatedAt @map("modified_at")
+  id         Int      @id @default(autoincrement())
+  name       String
+  note       String   @default("")
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
 
-  userId       Int?          @map("user_id")
-  user         User?         @relation(fields:[userId], references: [id])
+  userId Int?  @map("user_id")
+  user   User? @relation(fields: [userId], references: [id])
 
-  items        Item[]
-  orders       Order[]
-  templates    Template[]
+  defaultTemplateId Int?      @map("default_template_id")
+  defaultTemplate   Template? @relation("VendorDefaultTemplate", fields: [defaultTemplateId], references: [id], onDelete: SetNull)
+
+  templates Template[] @relation("VendorTemplates")
+
+  items         Item[]
+  orders        Order[]
   orderChannels OrderChannel[]
-  vendorTags   VendorTag[]
-  messages     Message[]
+  vendorTags    VendorTag[]
+  messages      Message[]
 
-  @@map("vendor")
   @@unique([id, userId])
+  @@map("vendor")
 }
 
 /**
@@ -120,7 +124,7 @@ model IntegrationCredential {
   createdAt            DateTime @default(now()) @map("created_at")
   modifiedAt           DateTime @updatedAt @map("modified_at")
 
-  orderChannels        OrderChannel[]
+  orderChannels OrderChannel[]
 
   @@map("integration_credential")
 }
@@ -129,30 +133,27 @@ model IntegrationCredential {
  * ORDER CHANNEL
  */
 model OrderChannel {
-  id               Int              @id @default(autoincrement())
-  vendorId          Int              @map("vendor_id")
-  credentialId      Int?             @map("credential_id")
+  id           Int  @id @default(autoincrement())
+  vendorId     Int  @map("vendor_id")
+  credentialId Int? @map("credential_id")
 
-  type              OrderChannelType
-  destination       String
+  type        OrderChannelType
+  destination String
 
-  subjectTemplateId Int?             @map("subject_template")
-  bodyTemplateId    Int?             @map("body_template")
+  templateId Int? @map("template_id")
 
-  sendMode          SendMode         @map("send_mode")
+  sendMode SendMode @map("send_mode")
 
-  createdAt         DateTime         @default(now()) @map("created_at")
-  modifiedAt        DateTime         @updatedAt @map("modified_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
 
-  vendor            Vendor           @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-  credential        IntegrationCredential? @relation(fields: [credentialId], references: [id], onDelete: SetNull)
-
-  // Template을 "참조"할지 말지는 너 설계 의도에 따라 유지/삭제 가능
-  subjectTemplate   Template?        @relation("SubjectTemplate", fields: [subjectTemplateId], references: [id], onDelete: SetNull)
-  bodyTemplate      Template?        @relation("BodyTemplate", fields: [bodyTemplateId], references: [id], onDelete: SetNull)
+  vendor     Vendor                 @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  credential IntegrationCredential? @relation(fields: [credentialId], references: [id], onDelete: SetNull)
+  template   Template?              @relation(fields: [templateId], references: [id], onDelete: SetNull)
 
   @@index([vendorId])
   @@index([credentialId])
+  @@index([templateId])
   @@map("order_channel")
 }
 
@@ -160,27 +161,27 @@ model OrderChannel {
  * TEMPLATE
  */
 model Template {
-  id         Int      @id @default(autoincrement())
-  name       String
+  id   Int    @id @default(autoincrement())
+  name String
 
-  userId     Int      @map("user_id")
-  vendorId   Int      @map("vendor_id")
+  userId   Int @map("user_id")
+  vendorId Int @map("vendor_id")
 
-  subject    String
-  header     String
-  footer     String
+  subject String?
+  header  String
+  footer  String
 
   createdAt  DateTime @default(now()) @map("created_at")
   modifiedAt DateTime @updatedAt @map("modified_at")
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  vendor     Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vendor Vendor @relation("VendorTemplates", fields: [vendorId], references: [id], onDelete: Cascade)
 
-  // OrderChannel에서 subjectTemplate/bodyTemplate로 참조할 때를 위한 역관계
-  subjectUsedByChannels OrderChannel[] @relation("SubjectTemplate")
-  bodyUsedByChannels    OrderChannel[] @relation("BodyTemplate")
+  defaultForVendors Vendor[] @relation("VendorDefaultTemplate")
 
-  messages   Message[]
+  orderChannels OrderChannel[]
+
+  messages Message[]
 
   @@index([userId])
   @@index([vendorId])
@@ -191,19 +192,19 @@ model Template {
  * CATEGORY / UNIT (네 Item 타입에 FK가 있어서 최소 모델로 추가)
  */
 model Category {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-  items     Item[]
+  items Item[]
 
   @@map("category")
 }
 
 model Unit {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-  items     Item[]
+  items Item[]
 
   @@map("unit")
 }
@@ -212,26 +213,26 @@ model Unit {
  * ITEM
  */
 model Item {
-  id          Int      @id @default(autoincrement())
-  name        String
+  id   Int    @id @default(autoincrement())
+  name String
 
-  categoryId  Int      @map("category_id")
-  vendorId    Int      @map("vendor_id")
+  categoryId Int @map("category_id")
+  vendorId   Int @map("vendor_id")
 
-  priceCents  Int      @map("price_cents")
-  unitId      Int      @map("unit_id")
+  priceCents Int @map("price_cents")
+  unitId     Int @map("unit_id")
 
-  imageUrl    String?  @map("image_url")
-  isActive    Boolean  @default(true) @map("is_active")
+  imageUrl String? @map("image_url")
+  isActive Boolean @default(true) @map("is_active")
 
-  createdAt   DateTime @default(now()) @map("created_at")
-  modifiedAt  DateTime @updatedAt @map("modified_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  modifiedAt DateTime @updatedAt @map("modified_at")
 
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  vendor      Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Restrict)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  vendor   Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  unit     Unit     @relation(fields: [unitId], references: [id], onDelete: Restrict)
 
-  orderItems  OrderItem[]
+  orderItems OrderItem[]
 
   @@index([vendorId])
   @@index([categoryId])
@@ -249,9 +250,9 @@ model Order {
   orderDate DateTime @map("order_date")
   createdAt DateTime @default(now()) @map("created_at")
 
-  vendor    Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
-  items     OrderItem[]
-  messages  Message[]
+  vendor   Vendor      @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  items    OrderItem[]
+  messages Message[]
 
   @@index([vendorId])
   @@index([orderDate])
@@ -259,16 +260,16 @@ model Order {
 }
 
 model OrderItem {
-  id                   Int      @id @default(autoincrement())
-  orderId              Int      @map("order_id")
-  itemId               Int      @map("item_id")
-  quantity             Int
-  unitPriceCentsAtOrder Int?    @map("unit_price_cents_at_order")
+  id                    Int  @id @default(autoincrement())
+  orderId               Int  @map("order_id")
+  itemId                Int  @map("item_id")
+  quantity              Int
+  unitPriceCentsAtOrder Int? @map("unit_price_cents_at_order")
 
-  createdAt            DateTime @default(now()) @map("create_at") // 네 타입이 create_at 라서 그대로 매핑
+  createdAt DateTime @default(now()) @map("create_at") // 네 타입이 create_at 라서 그대로 매핑
 
-  order                Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  item                 Item     @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  item  Item  @relation(fields: [itemId], references: [id], onDelete: Restrict)
 
   @@index([orderId])
   @@index([itemId])
@@ -277,27 +278,26 @@ model OrderItem {
 
 /**
  * MESSAGE
- * (supplier_id는 의미상 vendorId로 보이는데, 네 타입 그대로 supplierId로 두고 vendor로 연결했어)
  */
 model Message {
-  id         Int      @id @default(autoincrement())
-  publicId   String   @unique @map("public_id")
+  id       Int    @id @default(autoincrement())
+  publicId String @unique @map("public_id")
 
-  supplierId Int      @map("supplier_id")
-  orderId    Int      @map("order_id")
-  templateId Int      @map("template_id")
+  vendorId   Int @map("vendor_id")
+  orderId    Int @map("order_id")
+  templateId Int @map("template_id")
 
-  title      String
-  body       String
+  title String
+  body  String
 
   createdAt  DateTime @default(now()) @map("created_at")
   modifiedAt DateTime @updatedAt @map("modified_at")
 
-  supplier   Vendor   @relation(fields: [supplierId], references: [id], onDelete: Cascade)
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  template   Template @relation(fields: [templateId], references: [id], onDelete: Restrict)
+  vendor   Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  template Template @relation(fields: [templateId], references: [id], onDelete: Restrict)
 
-  @@index([supplierId])
+  @@index([vendorId])
   @@index([orderId])
   @@index([templateId])
   @@map("message")

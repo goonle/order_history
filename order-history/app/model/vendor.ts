@@ -3,7 +3,7 @@ export type Vendor = {
     name: string;
 
     note: string;
-
+    defaultTemplateId?: number | null;
     // created_at: Date;
     // modified_at: Date;
 }

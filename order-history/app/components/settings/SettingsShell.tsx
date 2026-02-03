@@ -8,7 +8,8 @@ import Spinner from "@/app/components/ui/Spinner";
 
 import { Vendor, VendorData} from "@/app/model/vendor";
 
-import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction, fetchUnitsAndCategoriesAction } from "@/server/actions/order.action";
+import { fetchUnitsAndCategoriesAction } from "@/server/actions/order.action";
+import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction } from "@/server/actions/vendor.action";
 import { Unit, Category } from "@/app/model/item";
 
 export default function SettingsShell() {

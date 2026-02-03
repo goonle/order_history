@@ -2,13 +2,20 @@ export type Template = {
     id: number;
     name: string;
 
-    user_id: number;
-    vendor_id: number;
+    userId: number;
+    vendorId: number;
 
     subject: string;
     header: string;
     footer: string;
 
-    created_at: Date;
-    modified_at: Date;
+    // created_at: Date;
+    // modified_at: Date;
 }
+
+export type TemplateDraft = {
+    name: string;
+    subject: string;
+    header: string;
+    footer: string;
+};

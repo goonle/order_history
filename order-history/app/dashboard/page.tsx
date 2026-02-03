@@ -1,5 +1,5 @@
 import DashboardShell from "../components/dashboard/DashboardShell";
-import { listVendorsAction } from "@/server/actions/order.action";
+import { listVendorsAction } from "@/server/actions/vendor.action";
 import { Vendor } from "@/app/model/vendor";
 
 export default async function DashboardPage() {

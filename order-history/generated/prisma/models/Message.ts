@@ -16,7 +16,6 @@ import type * as Prisma from "../internal/prismaNamespace"
  * Model Message
  * *
  *  * MESSAGE
- *  * (supplier_id는 의미상 vendorId로 보이는데, 네 타입 그대로 supplierId로 두고 vendor로 연결했어)
  */
 export type MessageModel = runtime.Types.Result.DefaultSelection<Prisma.$MessagePayload>
 
@@ -30,14 +29,14 @@ export type AggregateMessage = {
 
 export type MessageAvgAggregateOutputType = {
   id: number | null
-  supplierId: number | null
+  vendorId: number | null
   orderId: number | null
   templateId: number | null
 }
 
 export type MessageSumAggregateOutputType = {
   id: number | null
-  supplierId: number | null
+  vendorId: number | null
   orderId: number | null
   templateId: number | null
 }
@@ -45,7 +44,7 @@ export type MessageSumAggregateOutputType = {
 export type MessageMinAggregateOutputType = {
   id: number | null
   publicId: string | null
-  supplierId: number | null
+  vendorId: number | null
   orderId: number | null
   templateId: number | null
   title: string | null
@@ -57,7 +56,7 @@ export type MessageMinAggregateOutputType = {
 export type MessageMaxAggregateOutputType = {
   id: number | null
   publicId: string | null
-  supplierId: number | null
+  vendorId: number | null
   orderId: number | null
   templateId: number | null
   title: string | null
@@ -69,7 +68,7 @@ export type MessageMaxAggregateOutputType = {
 export type MessageCountAggregateOutputType = {
   id: number
   publicId: number
-  supplierId: number
+  vendorId: number
   orderId: number
   templateId: number
   title: number
@@ -82,14 +81,14 @@ export type MessageCountAggregateOutputType = {
 
 export type MessageAvgAggregateInputType = {
   id?: true
-  supplierId?: true
+  vendorId?: true
   orderId?: true
   templateId?: true
 }
 
 export type MessageSumAggregateInputType = {
   id?: true
-  supplierId?: true
+  vendorId?: true
   orderId?: true
   templateId?: true
 }
@@ -97,7 +96,7 @@ export type MessageSumAggregateInputType = {
 export type MessageMinAggregateInputType = {
   id?: true
   publicId?: true
-  supplierId?: true
+  vendorId?: true
   orderId?: true
   templateId?: true
   title?: true
@@ -109,7 +108,7 @@ export type MessageMinAggregateInputType = {
 export type MessageMaxAggregateInputType = {
   id?: true
   publicId?: true
-  supplierId?: true
+  vendorId?: true
   orderId?: true
   templateId?: true
   title?: true
@@ -121,7 +120,7 @@ export type MessageMaxAggregateInputType = {
 export type MessageCountAggregateInputType = {
   id?: true
   publicId?: true
-  supplierId?: true
+  vendorId?: true
   orderId?: true
   templateId?: true
   title?: true
@@ -220,7 +219,7 @@ export type MessageGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type MessageGroupByOutputType = {
   id: number
   publicId: string
-  supplierId: number
+  vendorId: number
   orderId: number
   templateId: number
   title: string
@@ -255,14 +254,14 @@ export type MessageWhereInput = {
   NOT?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
   id?: Prisma.IntFilter<"Message"> | number
   publicId?: Prisma.StringFilter<"Message"> | string
-  supplierId?: Prisma.IntFilter<"Message"> | number
+  vendorId?: Prisma.IntFilter<"Message"> | number
   orderId?: Prisma.IntFilter<"Message"> | number
   templateId?: Prisma.IntFilter<"Message"> | number
   title?: Prisma.StringFilter<"Message"> | string
   body?: Prisma.StringFilter<"Message"> | string
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  supplier?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
+  vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
   template?: Prisma.XOR<Prisma.TemplateScalarRelationFilter, Prisma.TemplateWhereInput>
 }
@@ -270,14 +269,14 @@ export type MessageWhereInput = {
 export type MessageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
-  supplier?: Prisma.VendorOrderByWithRelationInput
+  vendor?: Prisma.VendorOrderByWithRelationInput
   order?: Prisma.OrderOrderByWithRelationInput
   template?: Prisma.TemplateOrderByWithRelationInput
 }
@@ -288,14 +287,14 @@ export type MessageWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
   OR?: Prisma.MessageWhereInput[]
   NOT?: Prisma.MessageWhereInput | Prisma.MessageWhereInput[]
-  supplierId?: Prisma.IntFilter<"Message"> | number
+  vendorId?: Prisma.IntFilter<"Message"> | number
   orderId?: Prisma.IntFilter<"Message"> | number
   templateId?: Prisma.IntFilter<"Message"> | number
   title?: Prisma.StringFilter<"Message"> | string
   body?: Prisma.StringFilter<"Message"> | string
   createdAt?: Prisma.DateTimeFilter<"Message"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"Message"> | Date | string
-  supplier?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
+  vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
   template?: Prisma.XOR<Prisma.TemplateScalarRelationFilter, Prisma.TemplateWhereInput>
 }, "id" | "publicId">
@@ -303,7 +302,7 @@ export type MessageWhereUniqueInput = Prisma.AtLeast<{
 export type MessageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -323,7 +322,7 @@ export type MessageScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MessageScalarWhereWithAggregatesInput | Prisma.MessageScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Message"> | number
   publicId?: Prisma.StringWithAggregatesFilter<"Message"> | string
-  supplierId?: Prisma.IntWithAggregatesFilter<"Message"> | number
+  vendorId?: Prisma.IntWithAggregatesFilter<"Message"> | number
   orderId?: Prisma.IntWithAggregatesFilter<"Message"> | number
   templateId?: Prisma.IntWithAggregatesFilter<"Message"> | number
   title?: Prisma.StringWithAggregatesFilter<"Message"> | string
@@ -338,7 +337,7 @@ export type MessageCreateInput = {
   body: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  supplier: Prisma.VendorCreateNestedOneWithoutMessagesInput
+  vendor: Prisma.VendorCreateNestedOneWithoutMessagesInput
   order: Prisma.OrderCreateNestedOneWithoutMessagesInput
   template: Prisma.TemplateCreateNestedOneWithoutMessagesInput
 }
@@ -346,7 +345,7 @@ export type MessageCreateInput = {
 export type MessageUncheckedCreateInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   orderId: number
   templateId: number
   title: string
@@ -361,7 +360,7 @@ export type MessageUpdateInput = {
   body?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supplier?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
   order?: Prisma.OrderUpdateOneRequiredWithoutMessagesNestedInput
   template?: Prisma.TemplateUpdateOneRequiredWithoutMessagesNestedInput
 }
@@ -369,7 +368,7 @@ export type MessageUpdateInput = {
 export type MessageUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -381,7 +380,7 @@ export type MessageUncheckedUpdateInput = {
 export type MessageCreateManyInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   orderId: number
   templateId: number
   title: string
@@ -401,7 +400,7 @@ export type MessageUpdateManyMutationInput = {
 export type MessageUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -423,7 +422,7 @@ export type MessageOrderByRelationAggregateInput = {
 export type MessageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -434,7 +433,7 @@ export type MessageCountOrderByAggregateInput = {
 
 export type MessageAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
 }
@@ -442,7 +441,7 @@ export type MessageAvgOrderByAggregateInput = {
 export type MessageMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -454,7 +453,7 @@ export type MessageMaxOrderByAggregateInput = {
 export type MessageMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -465,50 +464,50 @@ export type MessageMinOrderByAggregateInput = {
 
 export type MessageSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  supplierId?: Prisma.SortOrder
+  vendorId?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
 }
 
-export type MessageCreateNestedManyWithoutSupplierInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput> | Prisma.MessageCreateWithoutSupplierInput[] | Prisma.MessageUncheckedCreateWithoutSupplierInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSupplierInput | Prisma.MessageCreateOrConnectWithoutSupplierInput[]
-  createMany?: Prisma.MessageCreateManySupplierInputEnvelope
+export type MessageCreateNestedManyWithoutVendorInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput> | Prisma.MessageCreateWithoutVendorInput[] | Prisma.MessageUncheckedCreateWithoutVendorInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutVendorInput | Prisma.MessageCreateOrConnectWithoutVendorInput[]
+  createMany?: Prisma.MessageCreateManyVendorInputEnvelope
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageUncheckedCreateNestedManyWithoutSupplierInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput> | Prisma.MessageCreateWithoutSupplierInput[] | Prisma.MessageUncheckedCreateWithoutSupplierInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSupplierInput | Prisma.MessageCreateOrConnectWithoutSupplierInput[]
-  createMany?: Prisma.MessageCreateManySupplierInputEnvelope
+export type MessageUncheckedCreateNestedManyWithoutVendorInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput> | Prisma.MessageCreateWithoutVendorInput[] | Prisma.MessageUncheckedCreateWithoutVendorInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutVendorInput | Prisma.MessageCreateOrConnectWithoutVendorInput[]
+  createMany?: Prisma.MessageCreateManyVendorInputEnvelope
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
 }
 
-export type MessageUpdateManyWithoutSupplierNestedInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput> | Prisma.MessageCreateWithoutSupplierInput[] | Prisma.MessageUncheckedCreateWithoutSupplierInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSupplierInput | Prisma.MessageCreateOrConnectWithoutSupplierInput[]
-  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSupplierInput | Prisma.MessageUpsertWithWhereUniqueWithoutSupplierInput[]
-  createMany?: Prisma.MessageCreateManySupplierInputEnvelope
+export type MessageUpdateManyWithoutVendorNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput> | Prisma.MessageCreateWithoutVendorInput[] | Prisma.MessageUncheckedCreateWithoutVendorInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutVendorInput | Prisma.MessageCreateOrConnectWithoutVendorInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutVendorInput | Prisma.MessageUpsertWithWhereUniqueWithoutVendorInput[]
+  createMany?: Prisma.MessageCreateManyVendorInputEnvelope
   set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
-  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSupplierInput | Prisma.MessageUpdateWithWhereUniqueWithoutSupplierInput[]
-  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSupplierInput | Prisma.MessageUpdateManyWithWhereWithoutSupplierInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutVendorInput | Prisma.MessageUpdateWithWhereUniqueWithoutVendorInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutVendorInput | Prisma.MessageUpdateManyWithWhereWithoutVendorInput[]
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
-export type MessageUncheckedUpdateManyWithoutSupplierNestedInput = {
-  create?: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput> | Prisma.MessageCreateWithoutSupplierInput[] | Prisma.MessageUncheckedCreateWithoutSupplierInput[]
-  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutSupplierInput | Prisma.MessageCreateOrConnectWithoutSupplierInput[]
-  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutSupplierInput | Prisma.MessageUpsertWithWhereUniqueWithoutSupplierInput[]
-  createMany?: Prisma.MessageCreateManySupplierInputEnvelope
+export type MessageUncheckedUpdateManyWithoutVendorNestedInput = {
+  create?: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput> | Prisma.MessageCreateWithoutVendorInput[] | Prisma.MessageUncheckedCreateWithoutVendorInput[]
+  connectOrCreate?: Prisma.MessageCreateOrConnectWithoutVendorInput | Prisma.MessageCreateOrConnectWithoutVendorInput[]
+  upsert?: Prisma.MessageUpsertWithWhereUniqueWithoutVendorInput | Prisma.MessageUpsertWithWhereUniqueWithoutVendorInput[]
+  createMany?: Prisma.MessageCreateManyVendorInputEnvelope
   set?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   disconnect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   delete?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
   connect?: Prisma.MessageWhereUniqueInput | Prisma.MessageWhereUniqueInput[]
-  update?: Prisma.MessageUpdateWithWhereUniqueWithoutSupplierInput | Prisma.MessageUpdateWithWhereUniqueWithoutSupplierInput[]
-  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutSupplierInput | Prisma.MessageUpdateManyWithWhereWithoutSupplierInput[]
+  update?: Prisma.MessageUpdateWithWhereUniqueWithoutVendorInput | Prisma.MessageUpdateWithWhereUniqueWithoutVendorInput[]
+  updateMany?: Prisma.MessageUpdateManyWithWhereWithoutVendorInput | Prisma.MessageUpdateManyWithWhereWithoutVendorInput[]
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
@@ -596,7 +595,7 @@ export type MessageUncheckedUpdateManyWithoutOrderNestedInput = {
   deleteMany?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
 }
 
-export type MessageCreateWithoutSupplierInput = {
+export type MessageCreateWithoutVendorInput = {
   publicId: string
   title: string
   body: string
@@ -606,7 +605,7 @@ export type MessageCreateWithoutSupplierInput = {
   template: Prisma.TemplateCreateNestedOneWithoutMessagesInput
 }
 
-export type MessageUncheckedCreateWithoutSupplierInput = {
+export type MessageUncheckedCreateWithoutVendorInput = {
   id?: number
   publicId: string
   orderId: number
@@ -617,30 +616,30 @@ export type MessageUncheckedCreateWithoutSupplierInput = {
   modifiedAt?: Date | string
 }
 
-export type MessageCreateOrConnectWithoutSupplierInput = {
+export type MessageCreateOrConnectWithoutVendorInput = {
   where: Prisma.MessageWhereUniqueInput
-  create: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput>
 }
 
-export type MessageCreateManySupplierInputEnvelope = {
-  data: Prisma.MessageCreateManySupplierInput | Prisma.MessageCreateManySupplierInput[]
+export type MessageCreateManyVendorInputEnvelope = {
+  data: Prisma.MessageCreateManyVendorInput | Prisma.MessageCreateManyVendorInput[]
   skipDuplicates?: boolean
 }
 
-export type MessageUpsertWithWhereUniqueWithoutSupplierInput = {
+export type MessageUpsertWithWhereUniqueWithoutVendorInput = {
   where: Prisma.MessageWhereUniqueInput
-  update: Prisma.XOR<Prisma.MessageUpdateWithoutSupplierInput, Prisma.MessageUncheckedUpdateWithoutSupplierInput>
-  create: Prisma.XOR<Prisma.MessageCreateWithoutSupplierInput, Prisma.MessageUncheckedCreateWithoutSupplierInput>
+  update: Prisma.XOR<Prisma.MessageUpdateWithoutVendorInput, Prisma.MessageUncheckedUpdateWithoutVendorInput>
+  create: Prisma.XOR<Prisma.MessageCreateWithoutVendorInput, Prisma.MessageUncheckedCreateWithoutVendorInput>
 }
 
-export type MessageUpdateWithWhereUniqueWithoutSupplierInput = {
+export type MessageUpdateWithWhereUniqueWithoutVendorInput = {
   where: Prisma.MessageWhereUniqueInput
-  data: Prisma.XOR<Prisma.MessageUpdateWithoutSupplierInput, Prisma.MessageUncheckedUpdateWithoutSupplierInput>
+  data: Prisma.XOR<Prisma.MessageUpdateWithoutVendorInput, Prisma.MessageUncheckedUpdateWithoutVendorInput>
 }
 
-export type MessageUpdateManyWithWhereWithoutSupplierInput = {
+export type MessageUpdateManyWithWhereWithoutVendorInput = {
   where: Prisma.MessageScalarWhereInput
-  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutSupplierInput>
+  data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutVendorInput>
 }
 
 export type MessageScalarWhereInput = {
@@ -649,7 +648,7 @@ export type MessageScalarWhereInput = {
   NOT?: Prisma.MessageScalarWhereInput | Prisma.MessageScalarWhereInput[]
   id?: Prisma.IntFilter<"Message"> | number
   publicId?: Prisma.StringFilter<"Message"> | string
-  supplierId?: Prisma.IntFilter<"Message"> | number
+  vendorId?: Prisma.IntFilter<"Message"> | number
   orderId?: Prisma.IntFilter<"Message"> | number
   templateId?: Prisma.IntFilter<"Message"> | number
   title?: Prisma.StringFilter<"Message"> | string
@@ -664,14 +663,14 @@ export type MessageCreateWithoutTemplateInput = {
   body: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  supplier: Prisma.VendorCreateNestedOneWithoutMessagesInput
+  vendor: Prisma.VendorCreateNestedOneWithoutMessagesInput
   order: Prisma.OrderCreateNestedOneWithoutMessagesInput
 }
 
 export type MessageUncheckedCreateWithoutTemplateInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   orderId: number
   title: string
   body: string
@@ -711,14 +710,14 @@ export type MessageCreateWithoutOrderInput = {
   body: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  supplier: Prisma.VendorCreateNestedOneWithoutMessagesInput
+  vendor: Prisma.VendorCreateNestedOneWithoutMessagesInput
   template: Prisma.TemplateCreateNestedOneWithoutMessagesInput
 }
 
 export type MessageUncheckedCreateWithoutOrderInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   templateId: number
   title: string
   body: string
@@ -752,7 +751,7 @@ export type MessageUpdateManyWithWhereWithoutOrderInput = {
   data: Prisma.XOR<Prisma.MessageUpdateManyMutationInput, Prisma.MessageUncheckedUpdateManyWithoutOrderInput>
 }
 
-export type MessageCreateManySupplierInput = {
+export type MessageCreateManyVendorInput = {
   id?: number
   publicId: string
   orderId: number
@@ -763,7 +762,7 @@ export type MessageCreateManySupplierInput = {
   modifiedAt?: Date | string
 }
 
-export type MessageUpdateWithoutSupplierInput = {
+export type MessageUpdateWithoutVendorInput = {
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -773,7 +772,7 @@ export type MessageUpdateWithoutSupplierInput = {
   template?: Prisma.TemplateUpdateOneRequiredWithoutMessagesNestedInput
 }
 
-export type MessageUncheckedUpdateWithoutSupplierInput = {
+export type MessageUncheckedUpdateWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -784,7 +783,7 @@ export type MessageUncheckedUpdateWithoutSupplierInput = {
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type MessageUncheckedUpdateManyWithoutSupplierInput = {
+export type MessageUncheckedUpdateManyWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -798,7 +797,7 @@ export type MessageUncheckedUpdateManyWithoutSupplierInput = {
 export type MessageCreateManyTemplateInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   orderId: number
   title: string
   body: string
@@ -812,14 +811,14 @@ export type MessageUpdateWithoutTemplateInput = {
   body?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supplier?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
   order?: Prisma.OrderUpdateOneRequiredWithoutMessagesNestedInput
 }
 
 export type MessageUncheckedUpdateWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -830,7 +829,7 @@ export type MessageUncheckedUpdateWithoutTemplateInput = {
 export type MessageUncheckedUpdateManyWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   orderId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -841,7 +840,7 @@ export type MessageUncheckedUpdateManyWithoutTemplateInput = {
 export type MessageCreateManyOrderInput = {
   id?: number
   publicId: string
-  supplierId: number
+  vendorId: number
   templateId: number
   title: string
   body: string
@@ -855,14 +854,14 @@ export type MessageUpdateWithoutOrderInput = {
   body?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  supplier?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutMessagesNestedInput
   template?: Prisma.TemplateUpdateOneRequiredWithoutMessagesNestedInput
 }
 
 export type MessageUncheckedUpdateWithoutOrderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -873,7 +872,7 @@ export type MessageUncheckedUpdateWithoutOrderInput = {
 export type MessageUncheckedUpdateManyWithoutOrderInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
-  supplierId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   templateId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -886,14 +885,14 @@ export type MessageUncheckedUpdateManyWithoutOrderInput = {
 export type MessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   publicId?: boolean
-  supplierId?: boolean
+  vendorId?: boolean
   orderId?: boolean
   templateId?: boolean
   title?: boolean
   body?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
@@ -901,14 +900,14 @@ export type MessageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type MessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   publicId?: boolean
-  supplierId?: boolean
+  vendorId?: boolean
   orderId?: boolean
   templateId?: boolean
   title?: boolean
   body?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
@@ -916,14 +915,14 @@ export type MessageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type MessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   publicId?: boolean
-  supplierId?: boolean
+  vendorId?: boolean
   orderId?: boolean
   templateId?: boolean
   title?: boolean
   body?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["message"]>
@@ -931,7 +930,7 @@ export type MessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type MessageSelectScalar = {
   id?: boolean
   publicId?: boolean
-  supplierId?: boolean
+  vendorId?: boolean
   orderId?: boolean
   templateId?: boolean
   title?: boolean
@@ -940,19 +939,19 @@ export type MessageSelectScalar = {
   modifiedAt?: boolean
 }
 
-export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "publicId" | "supplierId" | "orderId" | "templateId" | "title" | "body" | "createdAt" | "modifiedAt", ExtArgs["result"]["message"]>
+export type MessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "publicId" | "vendorId" | "orderId" | "templateId" | "title" | "body" | "createdAt" | "modifiedAt", ExtArgs["result"]["message"]>
 export type MessageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }
 export type MessageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }
 export type MessageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  supplier?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
+  vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   template?: boolean | Prisma.TemplateDefaultArgs<ExtArgs>
 }
@@ -960,14 +959,14 @@ export type MessageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $MessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Message"
   objects: {
-    supplier: Prisma.$VendorPayload<ExtArgs>
+    vendor: Prisma.$VendorPayload<ExtArgs>
     order: Prisma.$OrderPayload<ExtArgs>
     template: Prisma.$TemplatePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     publicId: string
-    supplierId: number
+    vendorId: number
     orderId: number
     templateId: number
     title: string
@@ -1368,7 +1367,7 @@ readonly fields: MessageFieldRefs;
  */
 export interface Prisma__MessageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  supplier<T extends Prisma.VendorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorDefaultArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  vendor<T extends Prisma.VendorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorDefaultArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   order<T extends Prisma.OrderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   template<T extends Prisma.TemplateDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TemplateDefaultArgs<ExtArgs>>): Prisma.Prisma__TemplateClient<runtime.Types.Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1402,7 +1401,7 @@ export interface Prisma__MessageClient<T, Null = never, ExtArgs extends runtime.
 export interface MessageFieldRefs {
   readonly id: Prisma.FieldRef<"Message", 'Int'>
   readonly publicId: Prisma.FieldRef<"Message", 'String'>
-  readonly supplierId: Prisma.FieldRef<"Message", 'Int'>
+  readonly vendorId: Prisma.FieldRef<"Message", 'Int'>
   readonly orderId: Prisma.FieldRef<"Message", 'Int'>
   readonly templateId: Prisma.FieldRef<"Message", 'Int'>
   readonly title: Prisma.FieldRef<"Message", 'String'>

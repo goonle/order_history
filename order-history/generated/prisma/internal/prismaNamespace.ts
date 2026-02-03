@@ -1642,7 +1642,7 @@ export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof t
 export const MessageScalarFieldEnum = {
   id: 'id',
   publicId: 'publicId',
-  supplierId: 'supplierId',
+  vendorId: 'vendorId',
   orderId: 'orderId',
   templateId: 'templateId',
   title: 'title',
