@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Template } from "@/app/model/template";
+import { Template, TemplateDraft } from "@/app/model/template";
 import { Vendor } from "@/app/model/vendor";
 import TemplateListPanel from "./TemplateListPanel";
 import TemplateEditorPanel from "./TemplateEditorPanel";
@@ -86,17 +86,19 @@ export default function TemplatesScreen(props: {
         const n = name.trim();
         if (!n) return;
 
+        const draft = {
+            name: n,
+            subject: subject.trim() ? subject.trim() : null,
+            header,
+            footer,
+        } as TemplateDraft;
+
         setSaving(true);
         try {
             if (isNewDraft) {
-                // ✅ create
-                const res = await createTemplateAction({
-                    vendorId,
-                    name: n,
-                    subject: subject.trim() ? subject.trim() : null,
-                    header,
-                    footer,
-                } as Template);
+
+                const payload = { vendorId: vendorId, draft: draft};
+                const res = await createTemplateAction(payload);
 
                 if (!res.ok) throw new Error(res.code ?? "CREATE_FAILED");
 
@@ -105,13 +107,8 @@ export default function TemplatesScreen(props: {
             } else {
                 if (!selectedTemplate) return;
 
-                const res = await updateTemplateAction({
-                    id: selectedTemplate.id,
-                    name: n,
-                    subject: subject.trim() ? subject.trim() : null,
-                    header,
-                    footer,
-                } as Template);
+                const payload = { templateId: selectedTemplate.id, draft: draft };
+                const res = await updateTemplateAction(payload);
 
                 if (!res.ok) throw new Error(res.code ?? "UPDATE_FAILED");
 
