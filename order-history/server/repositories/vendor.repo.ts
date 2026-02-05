@@ -59,3 +59,16 @@ export async function deleteVendor(userId: number, vendorId: number) {
         }
     });
 }
+
+export async function updateVendorForDefaultTemplate(payload: {userId: number, vendorId: number, templateId: number}) {
+    const { userId, vendorId, templateId } = payload; 
+    return prisma.vendor.update({
+        where:{
+            userId,
+            id: vendorId
+        },
+        data : {
+            defaultTemplateId: templateId
+        }
+    })
+}

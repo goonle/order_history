@@ -217,7 +217,7 @@ export type TemplateGroupByOutputType = {
   name: string
   userId: number
   vendorId: number
-  subject: string
+  subject: string | null
   header: string
   footer: string
   createdAt: Date
@@ -252,15 +252,15 @@ export type TemplateWhereInput = {
   name?: Prisma.StringFilter<"Template"> | string
   userId?: Prisma.IntFilter<"Template"> | number
   vendorId?: Prisma.IntFilter<"Template"> | number
-  subject?: Prisma.StringFilter<"Template"> | string
+  subject?: Prisma.StringNullableFilter<"Template"> | string | null
   header?: Prisma.StringFilter<"Template"> | string
   footer?: Prisma.StringFilter<"Template"> | string
   createdAt?: Prisma.DateTimeFilter<"Template"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"Template"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
-  subjectUsedByChannels?: Prisma.OrderChannelListRelationFilter
-  bodyUsedByChannels?: Prisma.OrderChannelListRelationFilter
+  defaultForVendors?: Prisma.VendorListRelationFilter
+  orderChannels?: Prisma.OrderChannelListRelationFilter
   messages?: Prisma.MessageListRelationFilter
 }
 
@@ -269,15 +269,15 @@ export type TemplateOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   header?: Prisma.SortOrder
   footer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   vendor?: Prisma.VendorOrderByWithRelationInput
-  subjectUsedByChannels?: Prisma.OrderChannelOrderByRelationAggregateInput
-  bodyUsedByChannels?: Prisma.OrderChannelOrderByRelationAggregateInput
+  defaultForVendors?: Prisma.VendorOrderByRelationAggregateInput
+  orderChannels?: Prisma.OrderChannelOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
 }
 
@@ -289,15 +289,15 @@ export type TemplateWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Template"> | string
   userId?: Prisma.IntFilter<"Template"> | number
   vendorId?: Prisma.IntFilter<"Template"> | number
-  subject?: Prisma.StringFilter<"Template"> | string
+  subject?: Prisma.StringNullableFilter<"Template"> | string | null
   header?: Prisma.StringFilter<"Template"> | string
   footer?: Prisma.StringFilter<"Template"> | string
   createdAt?: Prisma.DateTimeFilter<"Template"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"Template"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
-  subjectUsedByChannels?: Prisma.OrderChannelListRelationFilter
-  bodyUsedByChannels?: Prisma.OrderChannelListRelationFilter
+  defaultForVendors?: Prisma.VendorListRelationFilter
+  orderChannels?: Prisma.OrderChannelListRelationFilter
   messages?: Prisma.MessageListRelationFilter
 }, "id">
 
@@ -306,7 +306,7 @@ export type TemplateOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
+  subject?: Prisma.SortOrderInput | Prisma.SortOrder
   header?: Prisma.SortOrder
   footer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -326,7 +326,7 @@ export type TemplateScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Template"> | string
   userId?: Prisma.IntWithAggregatesFilter<"Template"> | number
   vendorId?: Prisma.IntWithAggregatesFilter<"Template"> | number
-  subject?: Prisma.StringWithAggregatesFilter<"Template"> | string
+  subject?: Prisma.StringNullableWithAggregatesFilter<"Template"> | string | null
   header?: Prisma.StringWithAggregatesFilter<"Template"> | string
   footer?: Prisma.StringWithAggregatesFilter<"Template"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Template"> | Date | string
@@ -335,15 +335,15 @@ export type TemplateScalarWhereWithAggregatesInput = {
 
 export type TemplateCreateInput = {
   name: string
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTemplatesInput
   vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
-  subjectUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
 }
 
@@ -352,27 +352,27 @@ export type TemplateUncheckedCreateInput = {
   name: string
   userId: number
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorUncheckedCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
 }
 
 export type TemplateUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
-  subjectUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
 }
 
@@ -381,13 +381,13 @@ export type TemplateUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUncheckedUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
@@ -396,7 +396,7 @@ export type TemplateCreateManyInput = {
   name: string
   userId: number
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
@@ -405,7 +405,7 @@ export type TemplateCreateManyInput = {
 
 export type TemplateUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -417,7 +417,7 @@ export type TemplateUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -534,6 +534,12 @@ export type TemplateUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TemplateScalarWhereInput | Prisma.TemplateScalarWhereInput[]
 }
 
+export type TemplateCreateNestedOneWithoutDefaultForVendorsInput = {
+  create?: Prisma.XOR<Prisma.TemplateCreateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedCreateWithoutDefaultForVendorsInput>
+  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutDefaultForVendorsInput
+  connect?: Prisma.TemplateWhereUniqueInput
+}
+
 export type TemplateCreateNestedManyWithoutVendorInput = {
   create?: Prisma.XOR<Prisma.TemplateCreateWithoutVendorInput, Prisma.TemplateUncheckedCreateWithoutVendorInput> | Prisma.TemplateCreateWithoutVendorInput[] | Prisma.TemplateUncheckedCreateWithoutVendorInput[]
   connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutVendorInput | Prisma.TemplateCreateOrConnectWithoutVendorInput[]
@@ -546,6 +552,16 @@ export type TemplateUncheckedCreateNestedManyWithoutVendorInput = {
   connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutVendorInput | Prisma.TemplateCreateOrConnectWithoutVendorInput[]
   createMany?: Prisma.TemplateCreateManyVendorInputEnvelope
   connect?: Prisma.TemplateWhereUniqueInput | Prisma.TemplateWhereUniqueInput[]
+}
+
+export type TemplateUpdateOneWithoutDefaultForVendorsNestedInput = {
+  create?: Prisma.XOR<Prisma.TemplateCreateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedCreateWithoutDefaultForVendorsInput>
+  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutDefaultForVendorsInput
+  upsert?: Prisma.TemplateUpsertWithoutDefaultForVendorsInput
+  disconnect?: Prisma.TemplateWhereInput | boolean
+  delete?: Prisma.TemplateWhereInput | boolean
+  connect?: Prisma.TemplateWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TemplateUpdateToOneWithWhereWithoutDefaultForVendorsInput, Prisma.TemplateUpdateWithoutDefaultForVendorsInput>, Prisma.TemplateUncheckedUpdateWithoutDefaultForVendorsInput>
 }
 
 export type TemplateUpdateManyWithoutVendorNestedInput = {
@@ -576,36 +592,24 @@ export type TemplateUncheckedUpdateManyWithoutVendorNestedInput = {
   deleteMany?: Prisma.TemplateScalarWhereInput | Prisma.TemplateScalarWhereInput[]
 }
 
-export type TemplateCreateNestedOneWithoutSubjectUsedByChannelsInput = {
-  create?: Prisma.XOR<Prisma.TemplateCreateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutSubjectUsedByChannelsInput>
-  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutSubjectUsedByChannelsInput
+export type TemplateCreateNestedOneWithoutOrderChannelsInput = {
+  create?: Prisma.XOR<Prisma.TemplateCreateWithoutOrderChannelsInput, Prisma.TemplateUncheckedCreateWithoutOrderChannelsInput>
+  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutOrderChannelsInput
   connect?: Prisma.TemplateWhereUniqueInput
 }
 
-export type TemplateCreateNestedOneWithoutBodyUsedByChannelsInput = {
-  create?: Prisma.XOR<Prisma.TemplateCreateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutBodyUsedByChannelsInput>
-  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutBodyUsedByChannelsInput
-  connect?: Prisma.TemplateWhereUniqueInput
-}
-
-export type TemplateUpdateOneWithoutSubjectUsedByChannelsNestedInput = {
-  create?: Prisma.XOR<Prisma.TemplateCreateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutSubjectUsedByChannelsInput>
-  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutSubjectUsedByChannelsInput
-  upsert?: Prisma.TemplateUpsertWithoutSubjectUsedByChannelsInput
+export type TemplateUpdateOneWithoutOrderChannelsNestedInput = {
+  create?: Prisma.XOR<Prisma.TemplateCreateWithoutOrderChannelsInput, Prisma.TemplateUncheckedCreateWithoutOrderChannelsInput>
+  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutOrderChannelsInput
+  upsert?: Prisma.TemplateUpsertWithoutOrderChannelsInput
   disconnect?: Prisma.TemplateWhereInput | boolean
   delete?: Prisma.TemplateWhereInput | boolean
   connect?: Prisma.TemplateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TemplateUpdateToOneWithWhereWithoutSubjectUsedByChannelsInput, Prisma.TemplateUpdateWithoutSubjectUsedByChannelsInput>, Prisma.TemplateUncheckedUpdateWithoutSubjectUsedByChannelsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TemplateUpdateToOneWithWhereWithoutOrderChannelsInput, Prisma.TemplateUpdateWithoutOrderChannelsInput>, Prisma.TemplateUncheckedUpdateWithoutOrderChannelsInput>
 }
 
-export type TemplateUpdateOneWithoutBodyUsedByChannelsNestedInput = {
-  create?: Prisma.XOR<Prisma.TemplateCreateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutBodyUsedByChannelsInput>
-  connectOrCreate?: Prisma.TemplateCreateOrConnectWithoutBodyUsedByChannelsInput
-  upsert?: Prisma.TemplateUpsertWithoutBodyUsedByChannelsInput
-  disconnect?: Prisma.TemplateWhereInput | boolean
-  delete?: Prisma.TemplateWhereInput | boolean
-  connect?: Prisma.TemplateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TemplateUpdateToOneWithWhereWithoutBodyUsedByChannelsInput, Prisma.TemplateUpdateWithoutBodyUsedByChannelsInput>, Prisma.TemplateUncheckedUpdateWithoutBodyUsedByChannelsInput>
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type TemplateCreateNestedOneWithoutMessagesInput = {
@@ -624,14 +628,14 @@ export type TemplateUpdateOneRequiredWithoutMessagesNestedInput = {
 
 export type TemplateCreateWithoutUserInput = {
   name: string
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
   vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
-  subjectUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
 }
 
@@ -639,13 +643,13 @@ export type TemplateUncheckedCreateWithoutUserInput = {
   id?: number
   name: string
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorUncheckedCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
 }
 
@@ -683,23 +687,55 @@ export type TemplateScalarWhereInput = {
   name?: Prisma.StringFilter<"Template"> | string
   userId?: Prisma.IntFilter<"Template"> | number
   vendorId?: Prisma.IntFilter<"Template"> | number
-  subject?: Prisma.StringFilter<"Template"> | string
+  subject?: Prisma.StringNullableFilter<"Template"> | string | null
   header?: Prisma.StringFilter<"Template"> | string
   footer?: Prisma.StringFilter<"Template"> | string
   createdAt?: Prisma.DateTimeFilter<"Template"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"Template"> | Date | string
 }
 
-export type TemplateCreateWithoutVendorInput = {
+export type TemplateCreateWithoutDefaultForVendorsInput = {
   name: string
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTemplatesInput
-  subjectUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutBodyTemplateInput
+  vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
+  orderChannels?: Prisma.OrderChannelCreateNestedManyWithoutTemplateInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
+}
+
+export type TemplateUncheckedCreateWithoutDefaultForVendorsInput = {
+  id?: number
+  name: string
+  userId: number
+  vendorId: number
+  subject?: string | null
+  header: string
+  footer: string
+  createdAt?: Date | string
+  modifiedAt?: Date | string
+  orderChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutTemplateInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
+}
+
+export type TemplateCreateOrConnectWithoutDefaultForVendorsInput = {
+  where: Prisma.TemplateWhereUniqueInput
+  create: Prisma.XOR<Prisma.TemplateCreateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedCreateWithoutDefaultForVendorsInput>
+}
+
+export type TemplateCreateWithoutVendorInput = {
+  name: string
+  subject?: string | null
+  header: string
+  footer: string
+  createdAt?: Date | string
+  modifiedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTemplatesInput
+  defaultForVendors?: Prisma.VendorCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
 }
 
@@ -707,13 +743,13 @@ export type TemplateUncheckedCreateWithoutVendorInput = {
   id?: number
   name: string
   userId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorUncheckedCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutTemplateInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
 }
 
@@ -725,6 +761,44 @@ export type TemplateCreateOrConnectWithoutVendorInput = {
 export type TemplateCreateManyVendorInputEnvelope = {
   data: Prisma.TemplateCreateManyVendorInput | Prisma.TemplateCreateManyVendorInput[]
   skipDuplicates?: boolean
+}
+
+export type TemplateUpsertWithoutDefaultForVendorsInput = {
+  update: Prisma.XOR<Prisma.TemplateUpdateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedUpdateWithoutDefaultForVendorsInput>
+  create: Prisma.XOR<Prisma.TemplateCreateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedCreateWithoutDefaultForVendorsInput>
+  where?: Prisma.TemplateWhereInput
+}
+
+export type TemplateUpdateToOneWithWhereWithoutDefaultForVendorsInput = {
+  where?: Prisma.TemplateWhereInput
+  data: Prisma.XOR<Prisma.TemplateUpdateWithoutDefaultForVendorsInput, Prisma.TemplateUncheckedUpdateWithoutDefaultForVendorsInput>
+}
+
+export type TemplateUpdateWithoutDefaultForVendorsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  header?: Prisma.StringFieldUpdateOperationsInput | string
+  footer?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
+  vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
+  orderChannels?: Prisma.OrderChannelUpdateManyWithoutTemplateNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
+}
+
+export type TemplateUncheckedUpdateWithoutDefaultForVendorsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  header?: Prisma.StringFieldUpdateOperationsInput | string
+  footer?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
 export type TemplateUpsertWithWhereUniqueWithoutVendorInput = {
@@ -743,157 +817,87 @@ export type TemplateUpdateManyWithWhereWithoutVendorInput = {
   data: Prisma.XOR<Prisma.TemplateUpdateManyMutationInput, Prisma.TemplateUncheckedUpdateManyWithoutVendorInput>
 }
 
-export type TemplateCreateWithoutSubjectUsedByChannelsInput = {
+export type TemplateCreateWithoutOrderChannelsInput = {
   name: string
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTemplatesInput
   vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
-  bodyUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorCreateNestedManyWithoutDefaultTemplateInput
   messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
 }
 
-export type TemplateUncheckedCreateWithoutSubjectUsedByChannelsInput = {
+export type TemplateUncheckedCreateWithoutOrderChannelsInput = {
   id?: number
   name: string
   userId: number
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorUncheckedCreateNestedManyWithoutDefaultTemplateInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
 }
 
-export type TemplateCreateOrConnectWithoutSubjectUsedByChannelsInput = {
+export type TemplateCreateOrConnectWithoutOrderChannelsInput = {
   where: Prisma.TemplateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TemplateCreateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutSubjectUsedByChannelsInput>
+  create: Prisma.XOR<Prisma.TemplateCreateWithoutOrderChannelsInput, Prisma.TemplateUncheckedCreateWithoutOrderChannelsInput>
 }
 
-export type TemplateCreateWithoutBodyUsedByChannelsInput = {
-  name: string
-  subject: string
-  header: string
-  footer: string
-  createdAt?: Date | string
-  modifiedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTemplatesInput
-  vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
-  subjectUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutSubjectTemplateInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTemplateInput
-}
-
-export type TemplateUncheckedCreateWithoutBodyUsedByChannelsInput = {
-  id?: number
-  name: string
-  userId: number
-  vendorId: number
-  subject: string
-  header: string
-  footer: string
-  createdAt?: Date | string
-  modifiedAt?: Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTemplateInput
-}
-
-export type TemplateCreateOrConnectWithoutBodyUsedByChannelsInput = {
-  where: Prisma.TemplateWhereUniqueInput
-  create: Prisma.XOR<Prisma.TemplateCreateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutBodyUsedByChannelsInput>
-}
-
-export type TemplateUpsertWithoutSubjectUsedByChannelsInput = {
-  update: Prisma.XOR<Prisma.TemplateUpdateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedUpdateWithoutSubjectUsedByChannelsInput>
-  create: Prisma.XOR<Prisma.TemplateCreateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutSubjectUsedByChannelsInput>
+export type TemplateUpsertWithoutOrderChannelsInput = {
+  update: Prisma.XOR<Prisma.TemplateUpdateWithoutOrderChannelsInput, Prisma.TemplateUncheckedUpdateWithoutOrderChannelsInput>
+  create: Prisma.XOR<Prisma.TemplateCreateWithoutOrderChannelsInput, Prisma.TemplateUncheckedCreateWithoutOrderChannelsInput>
   where?: Prisma.TemplateWhereInput
 }
 
-export type TemplateUpdateToOneWithWhereWithoutSubjectUsedByChannelsInput = {
+export type TemplateUpdateToOneWithWhereWithoutOrderChannelsInput = {
   where?: Prisma.TemplateWhereInput
-  data: Prisma.XOR<Prisma.TemplateUpdateWithoutSubjectUsedByChannelsInput, Prisma.TemplateUncheckedUpdateWithoutSubjectUsedByChannelsInput>
+  data: Prisma.XOR<Prisma.TemplateUpdateWithoutOrderChannelsInput, Prisma.TemplateUncheckedUpdateWithoutOrderChannelsInput>
 }
 
-export type TemplateUpdateWithoutSubjectUsedByChannelsInput = {
+export type TemplateUpdateWithoutOrderChannelsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUpdateManyWithoutDefaultTemplateNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
 }
 
-export type TemplateUncheckedUpdateWithoutSubjectUsedByChannelsInput = {
+export type TemplateUncheckedUpdateWithoutOrderChannelsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
-}
-
-export type TemplateUpsertWithoutBodyUsedByChannelsInput = {
-  update: Prisma.XOR<Prisma.TemplateUpdateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedUpdateWithoutBodyUsedByChannelsInput>
-  create: Prisma.XOR<Prisma.TemplateCreateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedCreateWithoutBodyUsedByChannelsInput>
-  where?: Prisma.TemplateWhereInput
-}
-
-export type TemplateUpdateToOneWithWhereWithoutBodyUsedByChannelsInput = {
-  where?: Prisma.TemplateWhereInput
-  data: Prisma.XOR<Prisma.TemplateUpdateWithoutBodyUsedByChannelsInput, Prisma.TemplateUncheckedUpdateWithoutBodyUsedByChannelsInput>
-}
-
-export type TemplateUpdateWithoutBodyUsedByChannelsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
-  header?: Prisma.StringFieldUpdateOperationsInput | string
-  footer?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
-  vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
-  subjectUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutSubjectTemplateNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
-}
-
-export type TemplateUncheckedUpdateWithoutBodyUsedByChannelsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
-  header?: Prisma.StringFieldUpdateOperationsInput | string
-  footer?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUncheckedUpdateManyWithoutDefaultTemplateNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
 export type TemplateCreateWithoutMessagesInput = {
   name: string
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTemplatesInput
   vendor: Prisma.VendorCreateNestedOneWithoutTemplatesInput
-  subjectUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelCreateNestedManyWithoutTemplateInput
 }
 
 export type TemplateUncheckedCreateWithoutMessagesInput = {
@@ -901,13 +905,13 @@ export type TemplateUncheckedCreateWithoutMessagesInput = {
   name: string
   userId: number
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
   modifiedAt?: Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput
+  defaultForVendors?: Prisma.VendorUncheckedCreateNestedManyWithoutDefaultTemplateInput
+  orderChannels?: Prisma.OrderChannelUncheckedCreateNestedManyWithoutTemplateInput
 }
 
 export type TemplateCreateOrConnectWithoutMessagesInput = {
@@ -928,15 +932,15 @@ export type TemplateUpdateToOneWithWhereWithoutMessagesInput = {
 
 export type TemplateUpdateWithoutMessagesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
   vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
-  subjectUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUpdateManyWithoutTemplateNestedInput
 }
 
 export type TemplateUncheckedUpdateWithoutMessagesInput = {
@@ -944,20 +948,20 @@ export type TemplateUncheckedUpdateWithoutMessagesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUncheckedUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
 export type TemplateCreateManyUserInput = {
   id?: number
   name: string
   vendorId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
@@ -966,14 +970,14 @@ export type TemplateCreateManyUserInput = {
 
 export type TemplateUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendor?: Prisma.VendorUpdateOneRequiredWithoutTemplatesNestedInput
-  subjectUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
 }
 
@@ -981,13 +985,13 @@ export type TemplateUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUncheckedUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
@@ -995,7 +999,7 @@ export type TemplateUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1006,7 +1010,7 @@ export type TemplateCreateManyVendorInput = {
   id?: number
   name: string
   userId: number
-  subject: string
+  subject?: string | null
   header: string
   footer: string
   createdAt?: Date | string
@@ -1015,14 +1019,14 @@ export type TemplateCreateManyVendorInput = {
 
 export type TemplateUpdateWithoutVendorInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTemplatesNestedInput
-  subjectUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTemplateNestedInput
 }
 
@@ -1030,13 +1034,13 @@ export type TemplateUncheckedUpdateWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjectUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput
-  bodyUsedByChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput
+  defaultForVendors?: Prisma.VendorUncheckedUpdateManyWithoutDefaultTemplateNestedInput
+  orderChannels?: Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTemplateNestedInput
 }
 
@@ -1044,7 +1048,7 @@ export type TemplateUncheckedUpdateManyWithoutVendorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
-  subject?: Prisma.StringFieldUpdateOperationsInput | string
+  subject?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   header?: Prisma.StringFieldUpdateOperationsInput | string
   footer?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1057,14 +1061,14 @@ export type TemplateUncheckedUpdateManyWithoutVendorInput = {
  */
 
 export type TemplateCountOutputType = {
-  subjectUsedByChannels: number
-  bodyUsedByChannels: number
+  defaultForVendors: number
+  orderChannels: number
   messages: number
 }
 
 export type TemplateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subjectUsedByChannels?: boolean | TemplateCountOutputTypeCountSubjectUsedByChannelsArgs
-  bodyUsedByChannels?: boolean | TemplateCountOutputTypeCountBodyUsedByChannelsArgs
+  defaultForVendors?: boolean | TemplateCountOutputTypeCountDefaultForVendorsArgs
+  orderChannels?: boolean | TemplateCountOutputTypeCountOrderChannelsArgs
   messages?: boolean | TemplateCountOutputTypeCountMessagesArgs
 }
 
@@ -1081,14 +1085,14 @@ export type TemplateCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * TemplateCountOutputType without action
  */
-export type TemplateCountOutputTypeCountSubjectUsedByChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrderChannelWhereInput
+export type TemplateCountOutputTypeCountDefaultForVendorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VendorWhereInput
 }
 
 /**
  * TemplateCountOutputType without action
  */
-export type TemplateCountOutputTypeCountBodyUsedByChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type TemplateCountOutputTypeCountOrderChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OrderChannelWhereInput
 }
 
@@ -1112,8 +1116,8 @@ export type TemplateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   modifiedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
-  subjectUsedByChannels?: boolean | Prisma.Template$subjectUsedByChannelsArgs<ExtArgs>
-  bodyUsedByChannels?: boolean | Prisma.Template$bodyUsedByChannelsArgs<ExtArgs>
+  defaultForVendors?: boolean | Prisma.Template$defaultForVendorsArgs<ExtArgs>
+  orderChannels?: boolean | Prisma.Template$orderChannelsArgs<ExtArgs>
   messages?: boolean | Prisma.Template$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.TemplateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["template"]>
@@ -1162,8 +1166,8 @@ export type TemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type TemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
-  subjectUsedByChannels?: boolean | Prisma.Template$subjectUsedByChannelsArgs<ExtArgs>
-  bodyUsedByChannels?: boolean | Prisma.Template$bodyUsedByChannelsArgs<ExtArgs>
+  defaultForVendors?: boolean | Prisma.Template$defaultForVendorsArgs<ExtArgs>
+  orderChannels?: boolean | Prisma.Template$orderChannelsArgs<ExtArgs>
   messages?: boolean | Prisma.Template$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.TemplateCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1181,8 +1185,8 @@ export type $TemplatePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     vendor: Prisma.$VendorPayload<ExtArgs>
-    subjectUsedByChannels: Prisma.$OrderChannelPayload<ExtArgs>[]
-    bodyUsedByChannels: Prisma.$OrderChannelPayload<ExtArgs>[]
+    defaultForVendors: Prisma.$VendorPayload<ExtArgs>[]
+    orderChannels: Prisma.$OrderChannelPayload<ExtArgs>[]
     messages: Prisma.$MessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1190,7 +1194,7 @@ export type $TemplatePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     userId: number
     vendorId: number
-    subject: string
+    subject: string | null
     header: string
     footer: string
     createdAt: Date
@@ -1591,8 +1595,8 @@ export interface Prisma__TemplateClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   vendor<T extends Prisma.VendorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorDefaultArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  subjectUsedByChannels<T extends Prisma.Template$subjectUsedByChannelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Template$subjectUsedByChannelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  bodyUsedByChannels<T extends Prisma.Template$bodyUsedByChannelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Template$bodyUsedByChannelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  defaultForVendors<T extends Prisma.Template$defaultForVendorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Template$defaultForVendorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orderChannels<T extends Prisma.Template$orderChannelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Template$orderChannelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.Template$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Template$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2028,33 +2032,33 @@ export type TemplateDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Template.subjectUsedByChannels
+ * Template.defaultForVendors
  */
-export type Template$subjectUsedByChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Template$defaultForVendorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the OrderChannel
+   * Select specific fields to fetch from the Vendor
    */
-  select?: Prisma.OrderChannelSelect<ExtArgs> | null
+  select?: Prisma.VendorSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the OrderChannel
+   * Omit specific fields from the Vendor
    */
-  omit?: Prisma.OrderChannelOmit<ExtArgs> | null
+  omit?: Prisma.VendorOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.OrderChannelInclude<ExtArgs> | null
-  where?: Prisma.OrderChannelWhereInput
-  orderBy?: Prisma.OrderChannelOrderByWithRelationInput | Prisma.OrderChannelOrderByWithRelationInput[]
-  cursor?: Prisma.OrderChannelWhereUniqueInput
+  include?: Prisma.VendorInclude<ExtArgs> | null
+  where?: Prisma.VendorWhereInput
+  orderBy?: Prisma.VendorOrderByWithRelationInput | Prisma.VendorOrderByWithRelationInput[]
+  cursor?: Prisma.VendorWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.OrderChannelScalarFieldEnum | Prisma.OrderChannelScalarFieldEnum[]
+  distinct?: Prisma.VendorScalarFieldEnum | Prisma.VendorScalarFieldEnum[]
 }
 
 /**
- * Template.bodyUsedByChannels
+ * Template.orderChannels
  */
-export type Template$bodyUsedByChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Template$orderChannelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the OrderChannel
    */

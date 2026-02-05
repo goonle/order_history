@@ -14,6 +14,7 @@ export async function listTemplatesByVendorService(vendorId: number): Promise<Te
         return listTemplates;
 
     } catch (e) {
+        console.log(" listTemplatesByVendorService : ", e);
         throw new InternalServerError("Failed to retrieve items");
 
     }
@@ -27,7 +28,8 @@ export async function createTemplateForUser(payload: { draft: TemplateDraft, ven
         const { vendorId, draft } = payload;
         return await createTemplate({ userId, vendorId, draft });
     }
-    catch {
+    catch (e) {
+        console.log(" createTemplateForUser : ", e);
         throw new InternalServerError("Failed to retrieve items");
     }
 }
@@ -36,11 +38,12 @@ export async function updateTemplateForUser(payload: { draft: TemplateDraft, tem
     try {
         const userId = await getAuthedUserIdFromSessionToken();
         if (!userId) throw new AuthError("User not authenticated");
-
+        
         const { templateId, draft } = payload;
         return await updateTemplate({ userId, templateId, draft });
     }
-    catch {
+    catch (e) {
+        console.log(" updateTemplateForUser : ", e);
         throw new InternalServerError("Failed to retrieve items");
     }
 }

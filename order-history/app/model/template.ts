@@ -5,7 +5,7 @@ export type Template = {
     userId: number;
     vendorId: number;
 
-    subject: string;
+    subject: string | null;
     header: string;
     footer: string;
 

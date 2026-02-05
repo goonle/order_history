@@ -13,7 +13,7 @@ export async function listTemplatesByVendorAction(vendorId: number): Promise<Act
     });
 }
 
-export async function createTemplateAction( payload: {draft : TemplateDraft , vendorId: number}): Promise<ActionResult<Template>> {
+export async function createTemplateAction( payload: {draft : TemplateDraft , vendorId: number}): Promise<ActionResult<Template|null>> {
     return await withActionResult(async () => {
         return await createTemplateForUser(payload);
     });

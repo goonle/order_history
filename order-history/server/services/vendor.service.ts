@@ -1,6 +1,6 @@
 import { Vendor } from "@/generated/prisma/client";
 import { getAuthedUserIdFromSessionToken } from "./session.service";
-import { findVendorsByUser, findByUserAndVendor, createVendor, updateVendor, deleteVendor } from "../repositories/vendor.repo";
+import { findVendorsByUser, findByUserAndVendor, createVendor, updateVendor, deleteVendor, updateVendorForDefaultTemplate } from "../repositories/vendor.repo";
 
 import { AuthError, InternalServerError } from "@/domain/errors";
 import { VendorData, Vendor as AppVendor } from "@/app/model/vendor";
@@ -38,6 +38,15 @@ export async function updateVendorForUser(vendorDataWithId: AppVendor) {
 export async function deleteVendorForUser(vendorId: number) {
     const userId = await getAuthedUserIdFromSessionToken();
     if (!userId) throw new AuthError("User not authenticated");
-
+    
     return await deleteVendor(userId, vendorId);
 };
+
+export async function updateVendorForTemplate(payload: {vendorId:number, templateId:number}) {
+    const userId = await getAuthedUserIdFromSessionToken();
+    if (!userId) throw new AuthError("User not authenticated");
+
+    const { vendorId, templateId } = payload; 
+    const data = {userId, vendorId, templateId}
+    return await updateVendorForDefaultTemplate(data);
+}

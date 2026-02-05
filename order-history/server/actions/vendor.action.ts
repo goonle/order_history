@@ -6,7 +6,7 @@ import { VendorData } from "@/app/model/vendor";
 import { ActionResult } from "@/shared/action-result";
 import { withActionResult } from "../utils/error.utils";
 import { getVendorListByUser } from "../services/vendor.service";
-import { createVendorForUser, updateVendorForUser, deleteVendorForUser } from "../services/vendor.service";
+import { createVendorForUser, updateVendorForUser, deleteVendorForUser, updateVendorForTemplate } from "../services/vendor.service";
 
 // Vendor
 function mapPrismaVendorToAppVendor(prismaVendor: Vendor): AppVendor {
@@ -56,4 +56,13 @@ export async function fetchVendorAction(vendorId: number): Promise<ActionResult<
         }
         return { vendor: vendor };
     });
+}
+export async function updateVendorForTemplateAction(payload: {vendorId:number, templateId: number}){
+    return await withActionResult(async()=> {
+        const vendor = await updateVendorForTemplate(payload);
+        if (!vendor) {
+            throw new Error("Vendor not found");
+        }
+        return { vendor: vendor };
+    })
 }

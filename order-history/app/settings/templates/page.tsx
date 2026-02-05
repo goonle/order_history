@@ -24,7 +24,7 @@ export default function TemplatesPage() {
     const [vendorListLoading, setVendorListLoading] = useState(false);
 
     const [templateList, setTemplateList] = useState<Template[]>([]);
-    const [templatesLoading, setTemplatesLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(false);
 
     const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
     const [selectedVendorId, setSelectedVendorId] = useState<number>(vendorIdFromUrl);
@@ -40,21 +40,23 @@ export default function TemplatesPage() {
     }, []);
 
     const fetchTemplates = useCallback(async (vendorId: number) => {
-        setTemplatesLoading(true);
+        setPageLoading(true);
         try {
             const res = await listTemplatesByVendorAction(vendorId);
             setTemplateList(res.ok ? res.data.templates || [] : []);
+            // console.log("res.data.templates :: ", res.ok ? res.data.templates : []);
         } finally {
-            setTemplatesLoading(false);
+            setPageLoading(false);
         }
     }, []);
 
-    // 1) vendor list 로드
+    // 1) vendor list load
     useEffect(() => {
         fetchVendorList();
     }, [fetchVendorList]);
 
-    // 2) vendorList가 생기면 vendorId 확정 (url 없으면 첫 vendor로 강제)
+
+    // 2) vendorList => vendor Id
     useEffect(() => {
         if (vendorList.length === 0) return;
 
@@ -70,20 +72,38 @@ export default function TemplatesPage() {
         setSelectedVendor(vendorList.find((v) => v.id === validId) || null);
     }, [vendorList, vendorIdFromUrl, router]);
 
-    // 3) selectedVendorId 바뀌면 templates 로드
+    // 3) When changed selectedVendorId, change Templates
     useEffect(() => {
         if (!selectedVendorId) return;
         fetchTemplates(selectedVendorId);
     }, [selectedVendorId, fetchTemplates]);
 
+
+    const handleChangeVendorId = useCallback((nextId: number) => {
+
+        setSelectedVendorId(nextId);
+        setSelectedVendor(vendorList.find(v => v.id === nextId) || null);
+
+        // ✅ URL 동기화만 (네비게이션 “느낌” 최소화)
+        router.replace(`/settings/templates?vendorId=${nextId}`, { scroll: false });
+    }, [vendorList, router]);
+
+    const handleFetchTemplateList = () => {
+        fetchTemplates(selectedVendorId)
+    }
+
     return (
-        <TemplatesScreen
-            vendorList={vendorList}
-            vendorListLoading={vendorListLoading}
-            templatesLoading={templatesLoading}
-            vendorId={selectedVendorId}
-            vendor={selectedVendor}
-            templateList={templateList}
-        />
+        <>
+            <TemplatesScreen
+                vendorList={vendorList}
+                vendorListLoading={vendorListLoading}
+                pageLoading={pageLoading}
+                vendorId={selectedVendorId}
+                vendor={selectedVendor}
+                templateList={templateList}
+                onChangeVendorId={handleChangeVendorId}
+                onFetchTemplates={handleFetchTemplateList}
+            />
+        </>
     );
 }

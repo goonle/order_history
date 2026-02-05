@@ -2,58 +2,63 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { Template, TemplateDraft } from "@/app/model/template";
 
-export async function findTemplatesByUserAndVendor(payload : {userId: number, vendorId: number} ) : Promise<Template[]>{
+export async function findTemplatesByUserAndVendor(payload: { userId: number, vendorId: number }): Promise<Template[]> {
     return prisma.template.findMany({
         where: {
-            userId : payload.userId,
-            vendorId : payload.vendorId
+            userId: payload.userId,
+            vendorId: payload.vendorId
         }
     });
 }
 
-export async function createTemplate(payload : { userId: number, vendorId: number, draft: TemplateDraft }): Promise<Template> {
+export async function createTemplate(payload: { userId: number, vendorId: number, draft: TemplateDraft }): Promise<Template> {
+    const { userId, vendorId, draft } = payload
     return prisma.template.create({
-        data : {
-            userId : payload.userId,
-            vendorId : payload.vendorId,
-            name: payload.draft.name,
-            subject: payload.draft.subject,
-            header: payload.draft.header,
-            footer: payload.draft.footer   
+        data: {
+            userId: userId,
+            vendorId: vendorId,
+            name: draft.name,
+            subject: draft.subject,
+            header: draft.header,
+            footer: draft.footer
         }
     });
+
 }
 
-export function updateTemplate(payload: { userId: number,  templateId: number, draft: TemplateDraft }) : Promise<Template> {
+export function updateTemplate(payload: { userId: number, templateId: number, draft: TemplateDraft }): Promise<Template> {
+    const { userId, templateId, draft } = payload;
     return prisma.template.update({
         where: {
-            id: payload.templateId,
-            userId: payload.userId
+            id: templateId,
+            userId: userId
         },
         data: {
-            name: payload.draft.name,
-            subject: payload.draft.subject,
-            header: payload.draft.header,
-            footer: payload.draft.footer
+            name: draft.name,
+            subject: draft.subject,
+            header: draft.header,
+            footer: draft.footer
         }
     })
 }
 
-export function deleteTemplate( payload: { userId: number, templateId: number}) {
+export function deleteTemplate(payload: { userId: number, templateId: number }) {
+    const { userId, templateId } = payload;
     return prisma.template.deleteMany({
-        where : {
-            id: payload.templateId,
-            userId : payload.userId
+        where: {
+            id: templateId,
+            userId
         }
     })
 }
 
-export function findTemplateById( payload: { templateId : number, userId: number, vendorId: number} ): Promise<Template[]> {
+export function findTemplateById(payload: { templateId: number, userId: number, vendorId: number }): Promise<Template[]> {
+    const { templateId, userId, vendorId } = payload;
     return prisma.template.findMany({
         where: {
-            id: payload.templateId,
-            vendorId: payload.vendorId,
-            userId: payload.userId
+            id: templateId,
+            vendorId,
+            userId
         }
     })
 }

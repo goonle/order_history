@@ -4,7 +4,7 @@ import { TemplateDraft } from "@/app/model/template";
 export default function TemplateEditorPanel(props: {
     title?: string;
 
-    // 상태
+    // status
     disabled: boolean;
     isNewDraft: boolean;
     draft: TemplateDraft;

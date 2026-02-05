@@ -1519,7 +1519,8 @@ export const VendorScalarFieldEnum = {
   note: 'note',
   createdAt: 'createdAt',
   modifiedAt: 'modifiedAt',
-  userId: 'userId'
+  userId: 'userId',
+  defaultTemplateId: 'defaultTemplateId'
 } as const
 
 export type VendorScalarFieldEnum = (typeof VendorScalarFieldEnum)[keyof typeof VendorScalarFieldEnum]
@@ -1560,8 +1561,7 @@ export const OrderChannelScalarFieldEnum = {
   credentialId: 'credentialId',
   type: 'type',
   destination: 'destination',
-  subjectTemplateId: 'subjectTemplateId',
-  bodyTemplateId: 'bodyTemplateId',
+  templateId: 'templateId',
   sendMode: 'sendMode',
   createdAt: 'createdAt',
   modifiedAt: 'modifiedAt'

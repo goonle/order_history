@@ -6,6 +6,7 @@ import { Template, TemplateDraft } from "@/app/model/template";
 import { Vendor } from "@/app/model/vendor";
 import TemplateListPanel from "./TemplateListPanel";
 import TemplateEditorPanel from "./TemplateEditorPanel";
+import Spinner from "@/app/components/ui/Spinner";
 
 
 import {
@@ -15,22 +16,26 @@ import {
     setVendorDefaultTemplateAction,
 } from "@/server/actions/template.action";
 
+import {
+    updateVendorForTemplateAction
+} from "@/server/actions/vendor.action"
+
 export default function TemplatesScreen(props: {
     vendorList: Vendor[];
     vendorId: number;
     vendor: Vendor | null;
     vendorListLoading: boolean;
     templateList: Template[];
-    templatesLoading: boolean;
+    pageLoading: boolean;
+    onChangeVendorId: (id: number) => void;
+    onFetchTemplates:() => void;
 }) {
     const router = useRouter();
     const sp = useSearchParams();
 
-    const vendorId = props.vendorId;
-    const vendor = props.vendor;
-    const templateList = props.templateList || [];
+    const { vendorId, vendor, templateList, vendorList, pageLoading, onChangeVendorId, onFetchTemplates } = props;
 
-    const [selectedTemplateId, setSelectedTemplateId] = useState<number>(props.templateList?.[0]?.id ?? 0);
+    const [selectedTemplateId, setSelectedTemplateId] = useState<number>(templateList?.[0]?.id ?? 0);
 
     const selectedTemplate = useMemo(
         () => templateList.find((t) => t.id === selectedTemplateId) ?? null,
@@ -39,13 +44,6 @@ export default function TemplatesScreen(props: {
 
     const [isNewDraft, setIsNewDraft] = useState(false);
     const isEditorDisabled = !selectedTemplate && !isNewDraft;
-
-    const PANEL_MIN_HEIGHT = "min-h-[calc(800px-3rem-3rem)]"; // 800px - padding(top+bottom)
-
-    const enableInputClass = "border-slate-200 bg-white focus:border-indigo-300 focus:ring-4 focus:ring-indigo-100";
-    const disableInputClass = "border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed";
-    const inputClass = isEditorDisabled ? disableInputClass : enableInputClass;
-
 
     // --- editor states ---
     const [name, setName] = useState("");
@@ -75,8 +73,11 @@ export default function TemplatesScreen(props: {
 
     // when vendorId changes, update vendor & template list
     function changeVendor(nextId: number) {
-        router.push(`/settings/templates?vendorId=${nextId}`);
+        onChangeVendorId(nextId);
+        setDefaultValueForInput();
+        setBusy(true);
     }
+
 
     async function refresh() {
         router.refresh();
@@ -95,9 +96,10 @@ export default function TemplatesScreen(props: {
 
         setSaving(true);
         try {
+            
             if (isNewDraft) {
 
-                const payload = { vendorId: vendorId, draft: draft};
+                const payload = { vendorId: vendorId, draft: draft };
                 const res = await createTemplateAction(payload);
 
                 if (!res.ok) throw new Error(res.code ?? "CREATE_FAILED");
@@ -115,6 +117,7 @@ export default function TemplatesScreen(props: {
                 await refresh();
             }
         } finally {
+            onFetchTemplates();
             setSaving(false);
         }
     }
@@ -127,8 +130,9 @@ export default function TemplatesScreen(props: {
         try {
             const res = await deleteTemplateAction(selectedTemplate.id);
             if (!res.ok) throw new Error(res.code ?? "DELETE_FAILED");
-            await refresh();
         } finally {
+            await refresh();
+            onFetchTemplates();
             setBusy(false);
         }
     }
@@ -136,8 +140,10 @@ export default function TemplatesScreen(props: {
     async function handleSetDefault(templateId: number) {
         if (!vendorId) return;
         setBusy(true);
+        console.log("templateId : ", templateId);
+        console.log("vendorId : ", vendorId);
         try {
-            const res = await setVendorDefaultTemplateAction({
+            const res = await updateVendorForTemplateAction({
                 vendorId,
                 templateId,
             });
@@ -153,6 +159,10 @@ export default function TemplatesScreen(props: {
 
         setIsNewDraft(true);
         setSelectedTemplateId(0); // 선택 해제 느낌 (선택 UI용)
+        setDefaultValueForInput();
+    }
+    
+    function setDefaultValueForInput(){
         setName("New Template");
         setSubject("");
         setHeader("Hi,\n\nPlease prepare the following order:\n");
@@ -161,10 +171,7 @@ export default function TemplatesScreen(props: {
 
     function handleReset() {
         if (isNewDraft) {
-            setName("New Template");
-            setSubject("");
-            setHeader("Hi,\n\nPlease prepare the following order:\n");
-            setFooter("\n\nThanks,\n");
+            setDefaultValueForInput();
             return;
         }
 
@@ -187,6 +194,8 @@ export default function TemplatesScreen(props: {
 
     return (
         <main className="min-h-screen bg-slate-50 text-slate-900">
+
+
             {/* Header */}
             <div className="border-b border-slate-200 bg-white">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -207,11 +216,18 @@ export default function TemplatesScreen(props: {
             </div>
 
             {/* Body */}
-            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 py-6 md:grid-cols-12">
+            <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 py-6 md:grid-cols-12">
+                {
+                    pageLoading && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/70 backdrop-blur-sm">
+                            <Spinner />
+                        </div>
+                    )
+                }
                 {/* Left: Vendor + Template list */}
                 <aside className="md:col-span-4">
                     <TemplateListPanel
-                        vendorList={props.vendorList}
+                        vendorList={vendorList}
                         vendorId={vendorId}
                         templateList={templateList}
                         selectedTemplateId={selectedTemplateId}

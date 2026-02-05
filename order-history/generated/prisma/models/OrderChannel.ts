@@ -31,16 +31,14 @@ export type OrderChannelAvgAggregateOutputType = {
   id: number | null
   vendorId: number | null
   credentialId: number | null
-  subjectTemplateId: number | null
-  bodyTemplateId: number | null
+  templateId: number | null
 }
 
 export type OrderChannelSumAggregateOutputType = {
   id: number | null
   vendorId: number | null
   credentialId: number | null
-  subjectTemplateId: number | null
-  bodyTemplateId: number | null
+  templateId: number | null
 }
 
 export type OrderChannelMinAggregateOutputType = {
@@ -49,8 +47,7 @@ export type OrderChannelMinAggregateOutputType = {
   credentialId: number | null
   type: $Enums.OrderChannelType | null
   destination: string | null
-  subjectTemplateId: number | null
-  bodyTemplateId: number | null
+  templateId: number | null
   sendMode: $Enums.SendMode | null
   createdAt: Date | null
   modifiedAt: Date | null
@@ -62,8 +59,7 @@ export type OrderChannelMaxAggregateOutputType = {
   credentialId: number | null
   type: $Enums.OrderChannelType | null
   destination: string | null
-  subjectTemplateId: number | null
-  bodyTemplateId: number | null
+  templateId: number | null
   sendMode: $Enums.SendMode | null
   createdAt: Date | null
   modifiedAt: Date | null
@@ -75,8 +71,7 @@ export type OrderChannelCountAggregateOutputType = {
   credentialId: number
   type: number
   destination: number
-  subjectTemplateId: number
-  bodyTemplateId: number
+  templateId: number
   sendMode: number
   createdAt: number
   modifiedAt: number
@@ -88,16 +83,14 @@ export type OrderChannelAvgAggregateInputType = {
   id?: true
   vendorId?: true
   credentialId?: true
-  subjectTemplateId?: true
-  bodyTemplateId?: true
+  templateId?: true
 }
 
 export type OrderChannelSumAggregateInputType = {
   id?: true
   vendorId?: true
   credentialId?: true
-  subjectTemplateId?: true
-  bodyTemplateId?: true
+  templateId?: true
 }
 
 export type OrderChannelMinAggregateInputType = {
@@ -106,8 +99,7 @@ export type OrderChannelMinAggregateInputType = {
   credentialId?: true
   type?: true
   destination?: true
-  subjectTemplateId?: true
-  bodyTemplateId?: true
+  templateId?: true
   sendMode?: true
   createdAt?: true
   modifiedAt?: true
@@ -119,8 +111,7 @@ export type OrderChannelMaxAggregateInputType = {
   credentialId?: true
   type?: true
   destination?: true
-  subjectTemplateId?: true
-  bodyTemplateId?: true
+  templateId?: true
   sendMode?: true
   createdAt?: true
   modifiedAt?: true
@@ -132,8 +123,7 @@ export type OrderChannelCountAggregateInputType = {
   credentialId?: true
   type?: true
   destination?: true
-  subjectTemplateId?: true
-  bodyTemplateId?: true
+  templateId?: true
   sendMode?: true
   createdAt?: true
   modifiedAt?: true
@@ -232,8 +222,7 @@ export type OrderChannelGroupByOutputType = {
   credentialId: number | null
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId: number | null
-  bodyTemplateId: number | null
+  templateId: number | null
   sendMode: $Enums.SendMode
   createdAt: Date
   modifiedAt: Date
@@ -268,15 +257,13 @@ export type OrderChannelWhereInput = {
   credentialId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   type?: Prisma.EnumOrderChannelTypeFilter<"OrderChannel"> | $Enums.OrderChannelType
   destination?: Prisma.StringFilter<"OrderChannel"> | string
-  subjectTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
-  bodyTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
+  templateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   sendMode?: Prisma.EnumSendModeFilter<"OrderChannel"> | $Enums.SendMode
   createdAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   credential?: Prisma.XOR<Prisma.IntegrationCredentialNullableScalarRelationFilter, Prisma.IntegrationCredentialWhereInput> | null
-  subjectTemplate?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
-  bodyTemplate?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
+  template?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
 }
 
 export type OrderChannelOrderByWithRelationInput = {
@@ -285,15 +272,13 @@ export type OrderChannelOrderByWithRelationInput = {
   credentialId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   destination?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrderInput | Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrderInput | Prisma.SortOrder
+  templateId?: Prisma.SortOrderInput | Prisma.SortOrder
   sendMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
   vendor?: Prisma.VendorOrderByWithRelationInput
   credential?: Prisma.IntegrationCredentialOrderByWithRelationInput
-  subjectTemplate?: Prisma.TemplateOrderByWithRelationInput
-  bodyTemplate?: Prisma.TemplateOrderByWithRelationInput
+  template?: Prisma.TemplateOrderByWithRelationInput
 }
 
 export type OrderChannelWhereUniqueInput = Prisma.AtLeast<{
@@ -305,15 +290,13 @@ export type OrderChannelWhereUniqueInput = Prisma.AtLeast<{
   credentialId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   type?: Prisma.EnumOrderChannelTypeFilter<"OrderChannel"> | $Enums.OrderChannelType
   destination?: Prisma.StringFilter<"OrderChannel"> | string
-  subjectTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
-  bodyTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
+  templateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   sendMode?: Prisma.EnumSendModeFilter<"OrderChannel"> | $Enums.SendMode
   createdAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
   vendor?: Prisma.XOR<Prisma.VendorScalarRelationFilter, Prisma.VendorWhereInput>
   credential?: Prisma.XOR<Prisma.IntegrationCredentialNullableScalarRelationFilter, Prisma.IntegrationCredentialWhereInput> | null
-  subjectTemplate?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
-  bodyTemplate?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
+  template?: Prisma.XOR<Prisma.TemplateNullableScalarRelationFilter, Prisma.TemplateWhereInput> | null
 }, "id">
 
 export type OrderChannelOrderByWithAggregationInput = {
@@ -322,8 +305,7 @@ export type OrderChannelOrderByWithAggregationInput = {
   credentialId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   destination?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrderInput | Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrderInput | Prisma.SortOrder
+  templateId?: Prisma.SortOrderInput | Prisma.SortOrder
   sendMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
@@ -343,8 +325,7 @@ export type OrderChannelScalarWhereWithAggregatesInput = {
   credentialId?: Prisma.IntNullableWithAggregatesFilter<"OrderChannel"> | number | null
   type?: Prisma.EnumOrderChannelTypeWithAggregatesFilter<"OrderChannel"> | $Enums.OrderChannelType
   destination?: Prisma.StringWithAggregatesFilter<"OrderChannel"> | string
-  subjectTemplateId?: Prisma.IntNullableWithAggregatesFilter<"OrderChannel"> | number | null
-  bodyTemplateId?: Prisma.IntNullableWithAggregatesFilter<"OrderChannel"> | number | null
+  templateId?: Prisma.IntNullableWithAggregatesFilter<"OrderChannel"> | number | null
   sendMode?: Prisma.EnumSendModeWithAggregatesFilter<"OrderChannel"> | $Enums.SendMode
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OrderChannel"> | Date | string
   modifiedAt?: Prisma.DateTimeWithAggregatesFilter<"OrderChannel"> | Date | string
@@ -358,8 +339,7 @@ export type OrderChannelCreateInput = {
   modifiedAt?: Date | string
   vendor: Prisma.VendorCreateNestedOneWithoutOrderChannelsInput
   credential?: Prisma.IntegrationCredentialCreateNestedOneWithoutOrderChannelsInput
-  subjectTemplate?: Prisma.TemplateCreateNestedOneWithoutSubjectUsedByChannelsInput
-  bodyTemplate?: Prisma.TemplateCreateNestedOneWithoutBodyUsedByChannelsInput
+  template?: Prisma.TemplateCreateNestedOneWithoutOrderChannelsInput
 }
 
 export type OrderChannelUncheckedCreateInput = {
@@ -368,8 +348,7 @@ export type OrderChannelUncheckedCreateInput = {
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -383,8 +362,7 @@ export type OrderChannelUpdateInput = {
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendor?: Prisma.VendorUpdateOneRequiredWithoutOrderChannelsNestedInput
   credential?: Prisma.IntegrationCredentialUpdateOneWithoutOrderChannelsNestedInput
-  subjectTemplate?: Prisma.TemplateUpdateOneWithoutSubjectUsedByChannelsNestedInput
-  bodyTemplate?: Prisma.TemplateUpdateOneWithoutBodyUsedByChannelsNestedInput
+  template?: Prisma.TemplateUpdateOneWithoutOrderChannelsNestedInput
 }
 
 export type OrderChannelUncheckedUpdateInput = {
@@ -393,8 +371,7 @@ export type OrderChannelUncheckedUpdateInput = {
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,8 +383,7 @@ export type OrderChannelCreateManyInput = {
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -427,8 +403,7 @@ export type OrderChannelUncheckedUpdateManyInput = {
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -450,8 +425,7 @@ export type OrderChannelCountOrderByAggregateInput = {
   credentialId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   destination?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrder
+  templateId?: Prisma.SortOrder
   sendMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
@@ -461,8 +435,7 @@ export type OrderChannelAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrder
+  templateId?: Prisma.SortOrder
 }
 
 export type OrderChannelMaxOrderByAggregateInput = {
@@ -471,8 +444,7 @@ export type OrderChannelMaxOrderByAggregateInput = {
   credentialId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   destination?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrder
+  templateId?: Prisma.SortOrder
   sendMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
@@ -484,8 +456,7 @@ export type OrderChannelMinOrderByAggregateInput = {
   credentialId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   destination?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrder
+  templateId?: Prisma.SortOrder
   sendMode?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   modifiedAt?: Prisma.SortOrder
@@ -495,8 +466,7 @@ export type OrderChannelSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   vendorId?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
-  subjectTemplateId?: Prisma.SortOrder
-  bodyTemplateId?: Prisma.SortOrder
+  templateId?: Prisma.SortOrder
 }
 
 export type OrderChannelCreateNestedManyWithoutVendorInput = {
@@ -591,87 +561,45 @@ export type EnumSendModeFieldUpdateOperationsInput = {
   set?: $Enums.SendMode
 }
 
-export type OrderChannelCreateNestedManyWithoutSubjectTemplateInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput> | Prisma.OrderChannelCreateWithoutSubjectTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManySubjectTemplateInputEnvelope
+export type OrderChannelCreateNestedManyWithoutTemplateInput = {
+  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput> | Prisma.OrderChannelCreateWithoutTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutTemplateInput[]
+  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutTemplateInput[]
+  createMany?: Prisma.OrderChannelCreateManyTemplateInputEnvelope
   connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
 }
 
-export type OrderChannelCreateNestedManyWithoutBodyTemplateInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput> | Prisma.OrderChannelCreateWithoutBodyTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManyBodyTemplateInputEnvelope
+export type OrderChannelUncheckedCreateNestedManyWithoutTemplateInput = {
+  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput> | Prisma.OrderChannelCreateWithoutTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutTemplateInput[]
+  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutTemplateInput[]
+  createMany?: Prisma.OrderChannelCreateManyTemplateInputEnvelope
   connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
 }
 
-export type OrderChannelUncheckedCreateNestedManyWithoutSubjectTemplateInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput> | Prisma.OrderChannelCreateWithoutSubjectTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManySubjectTemplateInputEnvelope
-  connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-}
-
-export type OrderChannelUncheckedCreateNestedManyWithoutBodyTemplateInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput> | Prisma.OrderChannelCreateWithoutBodyTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManyBodyTemplateInputEnvelope
-  connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-}
-
-export type OrderChannelUpdateManyWithoutSubjectTemplateNestedInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput> | Prisma.OrderChannelCreateWithoutSubjectTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput[]
-  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutSubjectTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutSubjectTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManySubjectTemplateInputEnvelope
+export type OrderChannelUpdateManyWithoutTemplateNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput> | Prisma.OrderChannelCreateWithoutTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutTemplateInput[]
+  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutTemplateInput[]
+  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutTemplateInput[]
+  createMany?: Prisma.OrderChannelCreateManyTemplateInputEnvelope
   set?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   disconnect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   delete?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutSubjectTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutSubjectTemplateInput[]
-  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutSubjectTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutSubjectTemplateInput[]
+  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutTemplateInput[]
+  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutTemplateInput[]
   deleteMany?: Prisma.OrderChannelScalarWhereInput | Prisma.OrderChannelScalarWhereInput[]
 }
 
-export type OrderChannelUpdateManyWithoutBodyTemplateNestedInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput> | Prisma.OrderChannelCreateWithoutBodyTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput[]
-  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutBodyTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutBodyTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManyBodyTemplateInputEnvelope
+export type OrderChannelUncheckedUpdateManyWithoutTemplateNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput> | Prisma.OrderChannelCreateWithoutTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutTemplateInput[]
+  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutTemplateInput[]
+  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutTemplateInput[]
+  createMany?: Prisma.OrderChannelCreateManyTemplateInputEnvelope
   set?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   disconnect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   delete?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
   connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutBodyTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutBodyTemplateInput[]
-  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutBodyTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutBodyTemplateInput[]
-  deleteMany?: Prisma.OrderChannelScalarWhereInput | Prisma.OrderChannelScalarWhereInput[]
-}
-
-export type OrderChannelUncheckedUpdateManyWithoutSubjectTemplateNestedInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput> | Prisma.OrderChannelCreateWithoutSubjectTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutSubjectTemplateInput[]
-  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutSubjectTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutSubjectTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManySubjectTemplateInputEnvelope
-  set?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  disconnect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  delete?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutSubjectTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutSubjectTemplateInput[]
-  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutSubjectTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutSubjectTemplateInput[]
-  deleteMany?: Prisma.OrderChannelScalarWhereInput | Prisma.OrderChannelScalarWhereInput[]
-}
-
-export type OrderChannelUncheckedUpdateManyWithoutBodyTemplateNestedInput = {
-  create?: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput> | Prisma.OrderChannelCreateWithoutBodyTemplateInput[] | Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput[]
-  connectOrCreate?: Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput | Prisma.OrderChannelCreateOrConnectWithoutBodyTemplateInput[]
-  upsert?: Prisma.OrderChannelUpsertWithWhereUniqueWithoutBodyTemplateInput | Prisma.OrderChannelUpsertWithWhereUniqueWithoutBodyTemplateInput[]
-  createMany?: Prisma.OrderChannelCreateManyBodyTemplateInputEnvelope
-  set?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  disconnect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  delete?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  connect?: Prisma.OrderChannelWhereUniqueInput | Prisma.OrderChannelWhereUniqueInput[]
-  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutBodyTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutBodyTemplateInput[]
-  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutBodyTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutBodyTemplateInput[]
+  update?: Prisma.OrderChannelUpdateWithWhereUniqueWithoutTemplateInput | Prisma.OrderChannelUpdateWithWhereUniqueWithoutTemplateInput[]
+  updateMany?: Prisma.OrderChannelUpdateManyWithWhereWithoutTemplateInput | Prisma.OrderChannelUpdateManyWithWhereWithoutTemplateInput[]
   deleteMany?: Prisma.OrderChannelScalarWhereInput | Prisma.OrderChannelScalarWhereInput[]
 }
 
@@ -682,8 +610,7 @@ export type OrderChannelCreateWithoutVendorInput = {
   createdAt?: Date | string
   modifiedAt?: Date | string
   credential?: Prisma.IntegrationCredentialCreateNestedOneWithoutOrderChannelsInput
-  subjectTemplate?: Prisma.TemplateCreateNestedOneWithoutSubjectUsedByChannelsInput
-  bodyTemplate?: Prisma.TemplateCreateNestedOneWithoutBodyUsedByChannelsInput
+  template?: Prisma.TemplateCreateNestedOneWithoutOrderChannelsInput
 }
 
 export type OrderChannelUncheckedCreateWithoutVendorInput = {
@@ -691,8 +618,7 @@ export type OrderChannelUncheckedCreateWithoutVendorInput = {
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -733,8 +659,7 @@ export type OrderChannelScalarWhereInput = {
   credentialId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   type?: Prisma.EnumOrderChannelTypeFilter<"OrderChannel"> | $Enums.OrderChannelType
   destination?: Prisma.StringFilter<"OrderChannel"> | string
-  subjectTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
-  bodyTemplateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
+  templateId?: Prisma.IntNullableFilter<"OrderChannel"> | number | null
   sendMode?: Prisma.EnumSendModeFilter<"OrderChannel"> | $Enums.SendMode
   createdAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
   modifiedAt?: Prisma.DateTimeFilter<"OrderChannel"> | Date | string
@@ -747,8 +672,7 @@ export type OrderChannelCreateWithoutCredentialInput = {
   createdAt?: Date | string
   modifiedAt?: Date | string
   vendor: Prisma.VendorCreateNestedOneWithoutOrderChannelsInput
-  subjectTemplate?: Prisma.TemplateCreateNestedOneWithoutSubjectUsedByChannelsInput
-  bodyTemplate?: Prisma.TemplateCreateNestedOneWithoutBodyUsedByChannelsInput
+  template?: Prisma.TemplateCreateNestedOneWithoutOrderChannelsInput
 }
 
 export type OrderChannelUncheckedCreateWithoutCredentialInput = {
@@ -756,8 +680,7 @@ export type OrderChannelUncheckedCreateWithoutCredentialInput = {
   vendorId: number
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -789,7 +712,7 @@ export type OrderChannelUpdateManyWithWhereWithoutCredentialInput = {
   data: Prisma.XOR<Prisma.OrderChannelUpdateManyMutationInput, Prisma.OrderChannelUncheckedUpdateManyWithoutCredentialInput>
 }
 
-export type OrderChannelCreateWithoutSubjectTemplateInput = {
+export type OrderChannelCreateWithoutTemplateInput = {
   type: $Enums.OrderChannelType
   destination: string
   sendMode: $Enums.SendMode
@@ -797,94 +720,43 @@ export type OrderChannelCreateWithoutSubjectTemplateInput = {
   modifiedAt?: Date | string
   vendor: Prisma.VendorCreateNestedOneWithoutOrderChannelsInput
   credential?: Prisma.IntegrationCredentialCreateNestedOneWithoutOrderChannelsInput
-  bodyTemplate?: Prisma.TemplateCreateNestedOneWithoutBodyUsedByChannelsInput
 }
 
-export type OrderChannelUncheckedCreateWithoutSubjectTemplateInput = {
+export type OrderChannelUncheckedCreateWithoutTemplateInput = {
   id?: number
   vendorId: number
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  bodyTemplateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
 }
 
-export type OrderChannelCreateOrConnectWithoutSubjectTemplateInput = {
+export type OrderChannelCreateOrConnectWithoutTemplateInput = {
   where: Prisma.OrderChannelWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput>
+  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput>
 }
 
-export type OrderChannelCreateManySubjectTemplateInputEnvelope = {
-  data: Prisma.OrderChannelCreateManySubjectTemplateInput | Prisma.OrderChannelCreateManySubjectTemplateInput[]
+export type OrderChannelCreateManyTemplateInputEnvelope = {
+  data: Prisma.OrderChannelCreateManyTemplateInput | Prisma.OrderChannelCreateManyTemplateInput[]
   skipDuplicates?: boolean
 }
 
-export type OrderChannelCreateWithoutBodyTemplateInput = {
-  type: $Enums.OrderChannelType
-  destination: string
-  sendMode: $Enums.SendMode
-  createdAt?: Date | string
-  modifiedAt?: Date | string
-  vendor: Prisma.VendorCreateNestedOneWithoutOrderChannelsInput
-  credential?: Prisma.IntegrationCredentialCreateNestedOneWithoutOrderChannelsInput
-  subjectTemplate?: Prisma.TemplateCreateNestedOneWithoutSubjectUsedByChannelsInput
-}
-
-export type OrderChannelUncheckedCreateWithoutBodyTemplateInput = {
-  id?: number
-  vendorId: number
-  credentialId?: number | null
-  type: $Enums.OrderChannelType
-  destination: string
-  subjectTemplateId?: number | null
-  sendMode: $Enums.SendMode
-  createdAt?: Date | string
-  modifiedAt?: Date | string
-}
-
-export type OrderChannelCreateOrConnectWithoutBodyTemplateInput = {
+export type OrderChannelUpsertWithWhereUniqueWithoutTemplateInput = {
   where: Prisma.OrderChannelWhereUniqueInput
-  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput>
+  update: Prisma.XOR<Prisma.OrderChannelUpdateWithoutTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutTemplateInput>
+  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutTemplateInput>
 }
 
-export type OrderChannelCreateManyBodyTemplateInputEnvelope = {
-  data: Prisma.OrderChannelCreateManyBodyTemplateInput | Prisma.OrderChannelCreateManyBodyTemplateInput[]
-  skipDuplicates?: boolean
-}
-
-export type OrderChannelUpsertWithWhereUniqueWithoutSubjectTemplateInput = {
+export type OrderChannelUpdateWithWhereUniqueWithoutTemplateInput = {
   where: Prisma.OrderChannelWhereUniqueInput
-  update: Prisma.XOR<Prisma.OrderChannelUpdateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutSubjectTemplateInput>
-  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutSubjectTemplateInput>
+  data: Prisma.XOR<Prisma.OrderChannelUpdateWithoutTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutTemplateInput>
 }
 
-export type OrderChannelUpdateWithWhereUniqueWithoutSubjectTemplateInput = {
-  where: Prisma.OrderChannelWhereUniqueInput
-  data: Prisma.XOR<Prisma.OrderChannelUpdateWithoutSubjectTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutSubjectTemplateInput>
-}
-
-export type OrderChannelUpdateManyWithWhereWithoutSubjectTemplateInput = {
+export type OrderChannelUpdateManyWithWhereWithoutTemplateInput = {
   where: Prisma.OrderChannelScalarWhereInput
-  data: Prisma.XOR<Prisma.OrderChannelUpdateManyMutationInput, Prisma.OrderChannelUncheckedUpdateManyWithoutSubjectTemplateInput>
-}
-
-export type OrderChannelUpsertWithWhereUniqueWithoutBodyTemplateInput = {
-  where: Prisma.OrderChannelWhereUniqueInput
-  update: Prisma.XOR<Prisma.OrderChannelUpdateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutBodyTemplateInput>
-  create: Prisma.XOR<Prisma.OrderChannelCreateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedCreateWithoutBodyTemplateInput>
-}
-
-export type OrderChannelUpdateWithWhereUniqueWithoutBodyTemplateInput = {
-  where: Prisma.OrderChannelWhereUniqueInput
-  data: Prisma.XOR<Prisma.OrderChannelUpdateWithoutBodyTemplateInput, Prisma.OrderChannelUncheckedUpdateWithoutBodyTemplateInput>
-}
-
-export type OrderChannelUpdateManyWithWhereWithoutBodyTemplateInput = {
-  where: Prisma.OrderChannelScalarWhereInput
-  data: Prisma.XOR<Prisma.OrderChannelUpdateManyMutationInput, Prisma.OrderChannelUncheckedUpdateManyWithoutBodyTemplateInput>
+  data: Prisma.XOR<Prisma.OrderChannelUpdateManyMutationInput, Prisma.OrderChannelUncheckedUpdateManyWithoutTemplateInput>
 }
 
 export type OrderChannelCreateManyVendorInput = {
@@ -892,8 +764,7 @@ export type OrderChannelCreateManyVendorInput = {
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -906,8 +777,7 @@ export type OrderChannelUpdateWithoutVendorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   credential?: Prisma.IntegrationCredentialUpdateOneWithoutOrderChannelsNestedInput
-  subjectTemplate?: Prisma.TemplateUpdateOneWithoutSubjectUsedByChannelsNestedInput
-  bodyTemplate?: Prisma.TemplateUpdateOneWithoutBodyUsedByChannelsNestedInput
+  template?: Prisma.TemplateUpdateOneWithoutOrderChannelsNestedInput
 }
 
 export type OrderChannelUncheckedUpdateWithoutVendorInput = {
@@ -915,8 +785,7 @@ export type OrderChannelUncheckedUpdateWithoutVendorInput = {
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -927,8 +796,7 @@ export type OrderChannelUncheckedUpdateManyWithoutVendorInput = {
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -939,8 +807,7 @@ export type OrderChannelCreateManyCredentialInput = {
   vendorId: number
   type: $Enums.OrderChannelType
   destination: string
-  subjectTemplateId?: number | null
-  bodyTemplateId?: number | null
+  templateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
@@ -953,8 +820,7 @@ export type OrderChannelUpdateWithoutCredentialInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendor?: Prisma.VendorUpdateOneRequiredWithoutOrderChannelsNestedInput
-  subjectTemplate?: Prisma.TemplateUpdateOneWithoutSubjectUsedByChannelsNestedInput
-  bodyTemplate?: Prisma.TemplateUpdateOneWithoutBodyUsedByChannelsNestedInput
+  template?: Prisma.TemplateUpdateOneWithoutOrderChannelsNestedInput
 }
 
 export type OrderChannelUncheckedUpdateWithoutCredentialInput = {
@@ -962,8 +828,7 @@ export type OrderChannelUncheckedUpdateWithoutCredentialInput = {
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -974,38 +839,24 @@ export type OrderChannelUncheckedUpdateManyWithoutCredentialInput = {
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  templateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type OrderChannelCreateManySubjectTemplateInput = {
+export type OrderChannelCreateManyTemplateInput = {
   id?: number
   vendorId: number
   credentialId?: number | null
   type: $Enums.OrderChannelType
   destination: string
-  bodyTemplateId?: number | null
   sendMode: $Enums.SendMode
   createdAt?: Date | string
   modifiedAt?: Date | string
 }
 
-export type OrderChannelCreateManyBodyTemplateInput = {
-  id?: number
-  vendorId: number
-  credentialId?: number | null
-  type: $Enums.OrderChannelType
-  destination: string
-  subjectTemplateId?: number | null
-  sendMode: $Enums.SendMode
-  createdAt?: Date | string
-  modifiedAt?: Date | string
-}
-
-export type OrderChannelUpdateWithoutSubjectTemplateInput = {
+export type OrderChannelUpdateWithoutTemplateInput = {
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
@@ -1013,63 +864,25 @@ export type OrderChannelUpdateWithoutSubjectTemplateInput = {
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vendor?: Prisma.VendorUpdateOneRequiredWithoutOrderChannelsNestedInput
   credential?: Prisma.IntegrationCredentialUpdateOneWithoutOrderChannelsNestedInput
-  bodyTemplate?: Prisma.TemplateUpdateOneWithoutBodyUsedByChannelsNestedInput
 }
 
-export type OrderChannelUncheckedUpdateWithoutSubjectTemplateInput = {
+export type OrderChannelUncheckedUpdateWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type OrderChannelUncheckedUpdateManyWithoutSubjectTemplateInput = {
+export type OrderChannelUncheckedUpdateManyWithoutTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   vendorId?: Prisma.IntFieldUpdateOperationsInput | number
   credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
   destination?: Prisma.StringFieldUpdateOperationsInput | string
-  bodyTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type OrderChannelUpdateWithoutBodyTemplateInput = {
-  type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
-  destination?: Prisma.StringFieldUpdateOperationsInput | string
-  sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  vendor?: Prisma.VendorUpdateOneRequiredWithoutOrderChannelsNestedInput
-  credential?: Prisma.IntegrationCredentialUpdateOneWithoutOrderChannelsNestedInput
-  subjectTemplate?: Prisma.TemplateUpdateOneWithoutSubjectUsedByChannelsNestedInput
-}
-
-export type OrderChannelUncheckedUpdateWithoutBodyTemplateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
-  destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type OrderChannelUncheckedUpdateManyWithoutBodyTemplateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  vendorId?: Prisma.IntFieldUpdateOperationsInput | number
-  credentialId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  type?: Prisma.EnumOrderChannelTypeFieldUpdateOperationsInput | $Enums.OrderChannelType
-  destination?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectTemplateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   sendMode?: Prisma.EnumSendModeFieldUpdateOperationsInput | $Enums.SendMode
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   modifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1083,15 +896,13 @@ export type OrderChannelSelect<ExtArgs extends runtime.Types.Extensions.Internal
   credentialId?: boolean
   type?: boolean
   destination?: boolean
-  subjectTemplateId?: boolean
-  bodyTemplateId?: boolean
+  templateId?: boolean
   sendMode?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }, ExtArgs["result"]["orderChannel"]>
 
 export type OrderChannelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1100,15 +911,13 @@ export type OrderChannelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   credentialId?: boolean
   type?: boolean
   destination?: boolean
-  subjectTemplateId?: boolean
-  bodyTemplateId?: boolean
+  templateId?: boolean
   sendMode?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }, ExtArgs["result"]["orderChannel"]>
 
 export type OrderChannelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1117,15 +926,13 @@ export type OrderChannelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   credentialId?: boolean
   type?: boolean
   destination?: boolean
-  subjectTemplateId?: boolean
-  bodyTemplateId?: boolean
+  templateId?: boolean
   sendMode?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }, ExtArgs["result"]["orderChannel"]>
 
 export type OrderChannelSelectScalar = {
@@ -1134,31 +941,27 @@ export type OrderChannelSelectScalar = {
   credentialId?: boolean
   type?: boolean
   destination?: boolean
-  subjectTemplateId?: boolean
-  bodyTemplateId?: boolean
+  templateId?: boolean
   sendMode?: boolean
   createdAt?: boolean
   modifiedAt?: boolean
 }
 
-export type OrderChannelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "vendorId" | "credentialId" | "type" | "destination" | "subjectTemplateId" | "bodyTemplateId" | "sendMode" | "createdAt" | "modifiedAt", ExtArgs["result"]["orderChannel"]>
+export type OrderChannelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "vendorId" | "credentialId" | "type" | "destination" | "templateId" | "sendMode" | "createdAt" | "modifiedAt", ExtArgs["result"]["orderChannel"]>
 export type OrderChannelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }
 export type OrderChannelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }
 export type OrderChannelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vendor?: boolean | Prisma.VendorDefaultArgs<ExtArgs>
   credential?: boolean | Prisma.OrderChannel$credentialArgs<ExtArgs>
-  subjectTemplate?: boolean | Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>
-  bodyTemplate?: boolean | Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>
+  template?: boolean | Prisma.OrderChannel$templateArgs<ExtArgs>
 }
 
 export type $OrderChannelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1166,8 +969,7 @@ export type $OrderChannelPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     vendor: Prisma.$VendorPayload<ExtArgs>
     credential: Prisma.$IntegrationCredentialPayload<ExtArgs> | null
-    subjectTemplate: Prisma.$TemplatePayload<ExtArgs> | null
-    bodyTemplate: Prisma.$TemplatePayload<ExtArgs> | null
+    template: Prisma.$TemplatePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1175,8 +977,7 @@ export type $OrderChannelPayload<ExtArgs extends runtime.Types.Extensions.Intern
     credentialId: number | null
     type: $Enums.OrderChannelType
     destination: string
-    subjectTemplateId: number | null
-    bodyTemplateId: number | null
+    templateId: number | null
     sendMode: $Enums.SendMode
     createdAt: Date
     modifiedAt: Date
@@ -1576,8 +1377,7 @@ export interface Prisma__OrderChannelClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   vendor<T extends Prisma.VendorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VendorDefaultArgs<ExtArgs>>): Prisma.Prisma__VendorClient<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   credential<T extends Prisma.OrderChannel$credentialArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderChannel$credentialArgs<ExtArgs>>): Prisma.Prisma__IntegrationCredentialClient<runtime.Types.Result.GetResult<Prisma.$IntegrationCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  subjectTemplate<T extends Prisma.OrderChannel$subjectTemplateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderChannel$subjectTemplateArgs<ExtArgs>>): Prisma.Prisma__TemplateClient<runtime.Types.Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  bodyTemplate<T extends Prisma.OrderChannel$bodyTemplateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderChannel$bodyTemplateArgs<ExtArgs>>): Prisma.Prisma__TemplateClient<runtime.Types.Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  template<T extends Prisma.OrderChannel$templateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderChannel$templateArgs<ExtArgs>>): Prisma.Prisma__TemplateClient<runtime.Types.Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1612,8 +1412,7 @@ export interface OrderChannelFieldRefs {
   readonly credentialId: Prisma.FieldRef<"OrderChannel", 'Int'>
   readonly type: Prisma.FieldRef<"OrderChannel", 'OrderChannelType'>
   readonly destination: Prisma.FieldRef<"OrderChannel", 'String'>
-  readonly subjectTemplateId: Prisma.FieldRef<"OrderChannel", 'Int'>
-  readonly bodyTemplateId: Prisma.FieldRef<"OrderChannel", 'Int'>
+  readonly templateId: Prisma.FieldRef<"OrderChannel", 'Int'>
   readonly sendMode: Prisma.FieldRef<"OrderChannel", 'SendMode'>
   readonly createdAt: Prisma.FieldRef<"OrderChannel", 'DateTime'>
   readonly modifiedAt: Prisma.FieldRef<"OrderChannel", 'DateTime'>
@@ -2032,28 +1831,9 @@ export type OrderChannel$credentialArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * OrderChannel.subjectTemplate
+ * OrderChannel.template
  */
-export type OrderChannel$subjectTemplateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Template
-   */
-  select?: Prisma.TemplateSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Template
-   */
-  omit?: Prisma.TemplateOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TemplateInclude<ExtArgs> | null
-  where?: Prisma.TemplateWhereInput
-}
-
-/**
- * OrderChannel.bodyTemplate
- */
-export type OrderChannel$bodyTemplateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type OrderChannel$templateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Template
    */
