@@ -9,12 +9,15 @@ import { Vendor } from "@/app/model/vendor";
 import { ItemWithMeta } from "@/app/model/item";
 import { listVendorItemsAction } from "@/server/actions/order.action";
 import Spinner from "../ui/Spinner";
+import { Template } from "@/app/model/template";
+import { listVendorDefaultTemplateAction } from "@/server/actions/template.action";
 
 export default function DashboardShell(props: { initialVendors: Vendor[] }) {
 
     const [vendor, setVendor] = useState<Vendor | null>(null);
     const [vendorItems, setVendorItems] = useState<ItemWithMeta[]>([]);
     const [loadingItems, setLoadingItems] = useState<boolean>(false);
+    const [defaultTemplate, setDefaultTemplate] = useState<Template[]>([]);
 
     // select vendor
     const vendorList: Vendor[] = useMemo(() => props.initialVendors, [props.initialVendors]);
@@ -49,6 +52,34 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
         // You can perform side effects here when the vendor changes
     }, [vendor]);
 
+    useEffect(()=> {
+        if(!vendor) return;
+
+        if(!vendor.defaultTemplateId ) return;
+
+        const fetchTemplate = async ()=> {
+            
+            const data = { vendorId : vendor.id, templateId: vendor.defaultTemplateId! };
+            const res = await listVendorDefaultTemplateAction(data);
+            
+            if (res.ok) {
+                setDefaultTemplate(res.data.templates);
+                // console.log("fetched Template :: ", res.data.templates);
+                // console.log("vendor :: ", vendor);
+            } else {
+                setDefaultTemplate([]);
+            }
+        }
+
+        fetchTemplate();
+    }, [vendor])
+
+
+    useEffect(() => {
+        if(!vendor) return;
+
+        
+    }, [vendor])
 
     return (
         <>
@@ -103,7 +134,7 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
                     )
                 }
                 <div className="grid gap-6 md:grid-cols-2">
-                    <OrderPanel vendorItems={vendorItems} />
+                    <OrderPanel vendorItems={vendorItems} templates={defaultTemplate} vendor={vendor}/>
                     <HistoryPanel />
                 </div>
             </main>

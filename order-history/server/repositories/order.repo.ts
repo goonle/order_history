@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { ItemWithMeta, Item } from "@/app/model/item";
+import { OrderItemInput } from "@/app/model/order_item";
 
 export async function getUnitsAndCategories() {
     const unitList = await prisma.unit.findMany();
@@ -74,4 +75,26 @@ export async function createItemForVendorAndUser(itemData: {
         },
     });
     return newItem;
+}
+
+export async function createOrderAndOrderItems(payload: { vendorId: number, itemList: OrderItemInput[], userId: number }) {
+    const { vendorId, itemList, userId } = payload;
+    const filtered = itemList.filter((x) => x.quantity > 0);
+
+    const orderDate = new Date();
+    const order = await prisma.order.create({
+        data: {
+            vendorId,
+            orderDate: orderDate
+        },
+    });
+    await prisma.orderItem.createMany({
+        data: filtered.map(({ item_id, quantity }) => ({
+            orderId: order.id,
+            itemId: item_id,
+            quantity,
+        })),
+    });
+    
+    return order;
 }

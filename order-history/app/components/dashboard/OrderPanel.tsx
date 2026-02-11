@@ -2,27 +2,28 @@
 
 import { useState, useMemo } from "react";
 import { ItemWithMeta } from "@/app/model/item";
+import { Template } from "@/app/model/template";
+import OrderPopup from "./OrderPopup";
+import { Vendor } from "@/app/model/vendor";
 
-export default function OrderPanel(props: { vendorItems: ItemWithMeta[] }) {
+
+export default function OrderPanel(props: {
+  vendorItems: ItemWithMeta[],
+  templates: Template[],
+  vendor: Vendor | null,
+}) {
   const [quantities, setQuantities] = useState<Record<number, number>>({});
-  const { vendorItems } = props;
+  const { vendorItems, templates, vendor } = props;
 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewText, setPreviewText] = useState("");
 
-  const [toast, setToast] = useState<{
-    message: string;
-    type?: "success" | "error";
-  } | null>(null);
-
   function updateQty(id: number, value: number) {
     setQuantities((prev) => ({ ...prev, [id]: value }));
   }
-
   const selectedCount = useMemo(() => {
     return Object.values(quantities).filter((v) => Number(v) > 0).length;
   }, [quantities]);
-
 
   function handlePreview() {
     const lines = vendorItems
@@ -33,19 +34,9 @@ export default function OrderPanel(props: { vendorItems: ItemWithMeta[] }) {
     setPreviewText(text);
     setIsPreviewOpen(true);
   }
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(previewText);
-      // 원하면 토스트로 바꾸기. 일단 간단히 alert
-      showToast("Copied!");
-    } catch {
-      showToast("Copy failed. Please copy manually.");
-    }
-  }
 
-  function showToast(message: string, type: "success" | "error" = "success") {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 2000); // 2초 후 자동 제거
+  function handleClosePopup() {
+    setIsPreviewOpen(false)
   }
 
   return (
@@ -121,85 +112,15 @@ export default function OrderPanel(props: { vendorItems: ItemWithMeta[] }) {
           </span>
         </button>
       </section>
-      {isPreviewOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          onMouseDown={() => setIsPreviewOpen(false)}
-        >
-          {/* backdrop */}
-          <div className="absolute inset-0 bg-black/40" />
-
-          {/* panel */}
-          <div
-            className="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
-            onMouseDown={(e) => e.stopPropagation()} 
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">Order Text</h3>
-                <p className="mt-0.5 text-xs text-slate-500">
-                  Copy and paste this into your message/email.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setIsPreviewOpen(false)}
-                className="rounded-lg px-2 py-1 text-sm text-slate-500 hover:bg-slate-100"
-                aria-label="Close"
-              >
-                ✕
-              </button>
-            </div>
-
-            <textarea
-              readOnly
-              value={previewText}
-              className="mt-3 h-40 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 outline-none"
-            />
-
-            <div className="mt-3 flex gap-2">
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="inline-flex flex-1 items-center justify-center rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-              >
-                Copy
-              </button>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="inline-flex flex-1 items-center justify-center rounded-xl bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
-              >
-                Save History
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsPreviewOpen(false)}
-                className="inline-flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {toast && (
-        <div className="fixed top-1/2 left-1/2 z-[60] -translate-x-1/2">
-          <div
-            className={[
-              "rounded-xl px-4 py-2 text-sm font-medium shadow-lg backdrop-blur",
-              toast.type === "success"
-                ? "bg-emerald-600 text-white"
-                : "bg-rose-600 text-white",
-            ].join(" ")}
-          >
-            {toast.message}
-          </div>
-        </div>
-      )}
+      <OrderPopup
+       key={`${isPreviewOpen}-${vendor?.id ?? "nov"}-${templates?.[0]?.id ?? "notpl"}`}
+        isPreviewOpen={isPreviewOpen}
+        previewText={previewText}
+        handleClosePopup={handleClosePopup}
+        defaultTemplate={templates}
+        vendor={vendor}
+        quantities={quantities}
+      />
     </>
   );
 }

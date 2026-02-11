@@ -14,6 +14,7 @@ function mapPrismaVendorToAppVendor(prismaVendor: Vendor): AppVendor {
         id: prismaVendor.id,
         name: prismaVendor.name,
         note: prismaVendor.note,
+        defaultTemplateId: prismaVendor.defaultTemplateId
     };
 }
 

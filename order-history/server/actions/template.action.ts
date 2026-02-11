@@ -30,8 +30,9 @@ export async function deleteTemplateAction(templateId : number): Promise<ActionR
         return {count : result.count };
     });
 }
-export async function setVendorDefaultTemplateAction(payload: { vendorId: number; templateId: number }): Promise<ActionResult<Template[]>> {
+export async function listVendorDefaultTemplateAction(payload: { vendorId: number; templateId: number }): Promise<ActionResult<{templates: Template[]}>> {
     return await withActionResult(async () => {
-        return await findTemplateByIdService(payload)
+        const result = await findTemplateByIdService(payload);
+        return { templates : result }
     });
 }

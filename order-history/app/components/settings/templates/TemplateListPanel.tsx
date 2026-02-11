@@ -15,7 +15,7 @@ export default function TemplateListPanel(props: {
     onSelectTemplate: (templateId: number) => void;
 }) {
     const { 
-        vendorList, vendorId, templateList, selectedTemplateId, defaultTemplateId, disabled, 
+        vendorList, vendorId, templateList, selectedTemplateId, defaultTemplateId, 
         onChangeVendor, onNew, onSelectTemplate 
     } = props;
 

@@ -10,6 +10,8 @@ import { ItemWithMeta, Unit, Category, Item } from "@/app/model/item";
 
 import { Prisma } from "@/generated/prisma/browser";
 import { getUnitsAndCategories } from "../repositories/order.repo";
+import { addOrderService } from "../services/order.service";
+
 
 type PrismaItemWithMeta = Prisma.ItemGetPayload<{
     include: {
@@ -77,5 +79,12 @@ export async function createItemAction(itemData: {
         const newItem = await addItemForVendor(itemData);
         const convertedItem = mapPrismaItemToAppItem(newItem);
         return { item: convertedItem };
+    });
+}
+
+export async function saveHistoryAction(payload: { vendorId:number , records: Record <number, number >} ){
+    return await withActionResult(async() => {
+        const order = await addOrderService(payload);
+        return { orderId : order.id};
     });
 }

@@ -9,3 +9,8 @@ export type OrderItem = {
 
     create_at: Date;
 }
+
+export type OrderItemInput = {
+    item_id : number;
+    quantity : number;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Template, TemplateDraft } from "@/app/model/template";
 import { Vendor } from "@/app/model/vendor";
 import TemplateListPanel from "./TemplateListPanel";
@@ -13,7 +13,6 @@ import {
     createTemplateAction,
     updateTemplateAction,
     deleteTemplateAction,
-    setVendorDefaultTemplateAction,
 } from "@/server/actions/template.action";
 
 import {
@@ -31,7 +30,6 @@ export default function TemplatesScreen(props: {
     onFetchTemplates:() => void;
 }) {
     const router = useRouter();
-    const sp = useSearchParams();
 
     const { vendorId, vendor, templateList, vendorList, pageLoading, onChangeVendorId, onFetchTemplates } = props;
 
@@ -140,8 +138,6 @@ export default function TemplatesScreen(props: {
     async function handleSetDefault(templateId: number) {
         if (!vendorId) return;
         setBusy(true);
-        console.log("templateId : ", templateId);
-        console.log("vendorId : ", vendorId);
         try {
             const res = await updateVendorForTemplateAction({
                 vendorId,
