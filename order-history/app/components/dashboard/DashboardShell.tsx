@@ -1,16 +1,35 @@
 "use client";
 
+import { useState, useEffect, useCallback, useMemo } from "react";
+
 import VendorSelector from "@/app/components/dashboard/VendorSelector";
 import OrderPanel from "@/app/components/dashboard/OrderPanel";
 import HistoryPanel from "@/app/components/dashboard/HistoryPanel";
 import Link from "next/link";
-import { useState, useEffect, useCallback, useMemo } from "react";
+
 import { Vendor } from "@/app/model/vendor";
 import { ItemWithMeta } from "@/app/model/item";
-import { listVendorItemsAction } from "@/server/actions/order.action";
-import Spinner from "../ui/Spinner";
 import { Template } from "@/app/model/template";
+
+import { listVendorItemsAction } from "@/server/actions/order.action";
 import { listVendorDefaultTemplateAction } from "@/server/actions/template.action";
+import { listOrderHistoryAction } from "@/server/actions/orderHistory.action";
+
+
+import Spinner from "../ui/Spinner";
+
+type OrderHistoryItem = {
+    id: number;
+    quantity: number;
+    item: { id: number; name: string };
+};
+
+type OrderHistory = {
+    id: number;
+    orderDate: string | Date;
+    vendor: { id: number; name: string };
+    items: OrderHistoryItem[];
+};
 
 export default function DashboardShell(props: { initialVendors: Vendor[] }) {
 
@@ -18,6 +37,9 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
     const [vendorItems, setVendorItems] = useState<ItemWithMeta[]>([]);
     const [loadingItems, setLoadingItems] = useState<boolean>(false);
     const [defaultTemplate, setDefaultTemplate] = useState<Template[]>([]);
+    const [historyList, setHistoryList] = useState<OrderHistory[]>([]);
+    const [loadingHistory, setLoadingHistory] = useState<boolean>(false);
+    const [reloadHistory, setReloadHistory] = useState<boolean>(false);
 
     // select vendor
     const vendorList: Vendor[] = useMemo(() => props.initialVendors, [props.initialVendors]);
@@ -34,7 +56,7 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
     useEffect(() => {
         // console.log("Selected vendor:", vendor);
         if (!vendor) return;
-        
+
         const fetchItems = async () => {
             setLoadingItems(true);
             const res = await listVendorItemsAction(vendor.id);
@@ -52,16 +74,16 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
         // You can perform side effects here when the vendor changes
     }, [vendor]);
 
-    useEffect(()=> {
-        if(!vendor) return;
+    useEffect(() => {
+        if (!vendor) return;
 
-        if(!vendor.defaultTemplateId ) return;
+        if (!vendor.defaultTemplateId) return;
 
-        const fetchTemplate = async ()=> {
-            
-            const data = { vendorId : vendor.id, templateId: vendor.defaultTemplateId! };
+        const fetchTemplate = async () => {
+
+            const data = { vendorId: vendor.id, templateId: vendor.defaultTemplateId! };
             const res = await listVendorDefaultTemplateAction(data);
-            
+
             if (res.ok) {
                 setDefaultTemplate(res.data.templates);
                 // console.log("fetched Template :: ", res.data.templates);
@@ -76,10 +98,29 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
 
 
     useEffect(() => {
-        if(!vendor) return;
+        if (!vendor) return;
 
-        
-    }, [vendor])
+        const fetchHistory = async () => {
+            setLoadingHistory(true);
+            const data = { vendorId: vendor.id };
+            const res = await listOrderHistoryAction(data);
+            if (res.ok) {
+                const history = res.data.orderHistory;
+                setHistoryList(history || []);
+                console.log("fetched History :: ", history);
+            } else {
+                setHistoryList([]);
+            }
+            setLoadingHistory(false);
+            setReloadHistory(false);
+        }
+        fetchHistory();
+
+    }, [vendor, reloadHistory])
+
+    function refreshHistory() {
+        setReloadHistory(prev => !prev);
+    }
 
     return (
         <>
@@ -134,8 +175,17 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
                     )
                 }
                 <div className="grid gap-6 md:grid-cols-2">
-                    <OrderPanel vendorItems={vendorItems} templates={defaultTemplate} vendor={vendor}/>
-                    <HistoryPanel />
+                    <OrderPanel
+                        vendorItems={vendorItems}
+                        templates={defaultTemplate}
+                        vendor={vendor}
+                        refreshHistory={refreshHistory}
+                    />
+                    <HistoryPanel
+                        key={vendor?.id ?? 0}
+                        history={historyList}
+                        loading={loadingHistory}
+                    />
                 </div>
             </main>
         </>

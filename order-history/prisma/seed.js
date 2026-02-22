@@ -55,6 +55,20 @@ async function main() {
     },
   });
 
+  // 4-1) test user
+  const testAccountId = "testuser";
+  const testPassword = "test-password-1234";
+  const testPasswordEncrypted = await bcrypt.hash(testPassword, 10);
+
+  const testUser = await prisma.user.upsert({
+    where: { accountId: testAccountId },
+    update: {},
+    create: {
+      accountId: testAccountId,
+      passwordEncrypted: testPasswordEncrypted,
+    },
+  });
+
   // 5) 기본 Vendor 1개
   const vendor = await prisma.vendor.create({
     data: {

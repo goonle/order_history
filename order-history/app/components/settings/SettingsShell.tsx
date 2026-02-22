@@ -6,11 +6,13 @@ import VendorPanel from "./VendorPanel";
 import ItemPanel from "./ItemPanel";
 import Spinner from "@/app/components/ui/Spinner";
 
-import { Vendor, VendorData} from "@/app/model/vendor";
+import { Vendor, VendorData } from "@/app/model/vendor";
 
 import { fetchUnitsAndCategoriesAction } from "@/server/actions/order.action";
 import { listVendorsAction, createVendorAction, updateVendorAction, deleteVendorAction } from "@/server/actions/vendor.action";
 import { Unit, Category } from "@/app/model/item";
+
+import Link from "next/link";
 
 export default function SettingsShell() {
 
@@ -19,8 +21,8 @@ export default function SettingsShell() {
   const [loadingVendors, setLoadingVendors] = useState<boolean>(false);
   const [selectedVendorId, setSelectedVendorId] = useState<number>(vendors[0]?.id ?? 0);
 
-  const [ units, setUnits ] = useState<Unit[]>([]);
-  const [ categories, setCategories ] = useState<Category[]>([]);
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   // load vendors from server
   async function fetchVendorsAndSet() {
@@ -55,7 +57,7 @@ export default function SettingsShell() {
     await fetchVendorsAndSet();
   }
 
-  async function updateVendor(vendorDataWithId : Vendor) {
+  async function updateVendor(vendorDataWithId: Vendor) {
     const updatedVendor = await updateVendorAction(vendorDataWithId);
     if (!updatedVendor.ok) return;
 
@@ -100,12 +102,21 @@ export default function SettingsShell() {
             <p className="text-sm text-slate-500">Manage vendors and items.</p>
           </div>
 
-          <a
-            href="/dashboard"
-            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
-          >
-            ← Back to dashboard
-          </a>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/settings/password"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+            >
+              🔒 Change password
+            </Link>
+
+            <Link
+              href="/dashboard"
+              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm hover:bg-slate-50"
+            >
+              ← Back to dashboard
+            </Link>
+          </div>
         </div>
       </div>
 

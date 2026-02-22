@@ -77,24 +77,71 @@ export async function createItemForVendorAndUser(itemData: {
     return newItem;
 }
 
-export async function createOrderAndOrderItems(payload: { vendorId: number, itemList: OrderItemInput[], userId: number }) {
+export async function createOrderAndOrderItems(payload: {
+    vendorId: number,
+    itemList: OrderItemInput[],
+    userId: number
+}) {
     const { vendorId, itemList, userId } = payload;
     const filtered = itemList.filter((x) => x.quantity > 0);
 
-    const orderDate = new Date();
-    const order = await prisma.order.create({
-        data: {
-            vendorId,
-            orderDate: orderDate
+    return await prisma.$transaction(async (tx) => {
+        const order = await tx.order.create({
+            data: {
+                vendorId,
+                orderDate: new Date(),
+            },
+        });
+
+        const itemIds = filtered.map((x) => x.item_id);
+
+        const items = await tx.item.findMany({
+            where: { id: { in: itemIds } },
+            select: { id: true, priceCents: true },
+        });
+
+        const priceMap = new Map(items.map((it) => [it.id, it.priceCents]));
+
+        await tx.orderItem.createMany({
+            data: filtered.map(({ item_id, quantity }) => ({
+                orderId: order.id,
+                itemId: item_id,
+                quantity,
+                unitPriceCentsAtOrder: priceMap.get(item_id) ?? null,
+            })),
+        });
+
+        return order;
+    });
+}
+
+export async function getOrderHistoryByVendor(payload: { vendorId: number }) {
+
+    const { vendorId } = payload;
+
+    const orders = await prisma.order.findMany({
+        where: { vendorId },
+        orderBy: { orderDate: "desc" },
+        take: 20,
+        include: {
+            vendor: { select: { id: true, name: true } },
+            items: {
+                select: {
+                    id: true,
+                    quantity: true,
+                    unitPriceCentsAtOrder: true,
+                    item: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            },
         },
     });
-    await prisma.orderItem.createMany({
-        data: filtered.map(({ item_id, quantity }) => ({
-            orderId: order.id,
-            itemId: item_id,
-            quantity,
-        })),
-    });
-    
-    return order;
+
+    return orders;
 }
+
+

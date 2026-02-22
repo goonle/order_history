@@ -8,7 +8,9 @@ export type OrderHistoryLine = {
 
 export type OrderHistory = {
     id: number;
-    order_date: Date;
     vendor_id: number;
-    lines: OrderHistoryLine[];
+    vendor_name: string;
+    order_date: Date;
+    itemCount: number;
+    summary: string;
 }

@@ -11,9 +11,10 @@ export default function OrderPanel(props: {
   vendorItems: ItemWithMeta[],
   templates: Template[],
   vendor: Vendor | null,
+  refreshHistory: () => void;
 }) {
   const [quantities, setQuantities] = useState<Record<number, number>>({});
-  const { vendorItems, templates, vendor } = props;
+  const { vendorItems, templates, vendor, refreshHistory } = props;
 
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewText, setPreviewText] = useState("");
@@ -41,7 +42,7 @@ export default function OrderPanel(props: {
 
   return (
     <>
-      <section className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur">
+      <section className="rounded-2xl flex h-[700px] flex-col border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold text-slate-900">
@@ -57,8 +58,7 @@ export default function OrderPanel(props: {
           </span>
         </div>
 
-        {/* ✅ min-height로 "비어있을 때"도 높이 유지 */}
-        <div className="min-h-[220px]">
+        <div className="flex-1 overflow-auto min-h-[220px]">
           {vendorItems.length === 0 ? (
             <div className="flex h-[220px] items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 text-center">
               <div>
@@ -120,6 +120,7 @@ export default function OrderPanel(props: {
         defaultTemplate={templates}
         vendor={vendor}
         quantities={quantities}
+        refreshHistory={refreshHistory}
       />
     </>
   );

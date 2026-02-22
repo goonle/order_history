@@ -18,6 +18,7 @@ export default function OrderPopup(props: {
   defaultTemplate: Template[];
   vendor: Vendor | null;
   quantities: Record<number, number>;
+  refreshHistory: () => void;
 }) {
   const {
     isPreviewOpen,
@@ -37,7 +38,7 @@ export default function OrderPopup(props: {
   const [toast, setToast] = useState<Toast | null>(null);
 
   const [loading, setLoading] = useState(false);
-  
+
   // full text : header + items + footer
   const bodyText = useMemo(() => {
     const h = header?.trimEnd() ? header.trimEnd() + "\n\n" : "";
@@ -73,9 +74,10 @@ export default function OrderPopup(props: {
     try {
       const payload = { vendorId: vendor.id, records: quantities };
       const orderId = await saveHistoryAction(payload);
-      console.log("orderId :: ", orderId);
+      // console.log("orderId :: ", orderId);
       showToast("Saved History");
-    } catch {
+      props.refreshHistory();
+    } catch (error) {
       showToast("Save failed.");
     } finally {
       setLoading(false);
