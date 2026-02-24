@@ -90,8 +90,7 @@ async function main() {
       vendorId: vendor.id,
       type: "sms_manual",
       destination: "+64XXXXXXXXX",
-      subjectTemplateId: template.id,
-      bodyTemplateId: template.id,
+      templateId: template.id,
       sendMode: "manual",
     },
   });
