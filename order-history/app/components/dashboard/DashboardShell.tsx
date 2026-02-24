@@ -162,6 +162,15 @@ export default function DashboardShell(props: { initialVendors: Vendor[] }) {
                             <span className="text-slate-500">⚙️</span>
                             Settings
                         </Link>
+                        <form action="/api/auth/logout" method="POST">
+                            <button
+                                type="submit"
+                                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-indigo-100"
+                            >
+                                <span className="text-slate-500">🚪</span>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </header>
