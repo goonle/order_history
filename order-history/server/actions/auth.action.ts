@@ -5,7 +5,6 @@ import { withActionResult } from "../utils/error.utils";
 import { authenticateUser, logoutUser, changeUserPassword } from "../services/auth.service";
 import { ActionResult } from "@/shared/action-result";
 import { NextResponse } from "next/server";
-import { clear } from "console";
 import { clearSessionCookie } from "../utils/session-cookie.utils";
 
 export async function loginAction(accountId: string, password: string) : Promise<ActionResult<{ userId: number }>> {
