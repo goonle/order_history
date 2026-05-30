@@ -46,9 +46,7 @@ The system helps cafe staff manage suppliers, organize frequently ordered items,
 
 ### Backend
 
-* Spring Boot
-* Java
-
+* Next.js
 ### Database
 
 * PostgreSQL
