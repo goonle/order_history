@@ -11,7 +11,7 @@ const prisma = new PrismaClient({ adapter })
 import bcrypt from "bcryptjs";
 
 async function main() {
-  // 1) 기본 유닛
+  // 1) The unit of Items. According to the invoice that i read at work, I preset these units. It can be updated. 
   const units = ["ea", "kg", "g", "L", "ml", "pack", "box", "canteen"];
   for (const name of units) {
     await prisma.unit.upsert({
@@ -21,7 +21,7 @@ async function main() {
     });
   }
 
-  // 2) 기본 카테고리
+  // 2) Basic categories of items. 
   const categories = ["meat", "vegetable", "dairy", "snack", "drink", "frozen", "etc"];
   for (const name of categories) {
     await prisma.category.upsert({
@@ -31,7 +31,7 @@ async function main() {
     });
   }
 
-  // 3) 기본 태그
+  // 3) These are the tags. it can be used to filter items and it can show the better UI.
   const tags = ["food", "clothes", "japan", "vegetable", "bakery"];
   for (const name of tags) {
     await prisma.tag.upsert({
@@ -41,7 +41,7 @@ async function main() {
     });
   }
 
-  // 4) 기본 유저 (admin / 비번: change-me-1234)
+  // 4) Default User (admin: change-me-1234)
   const accountId = "admin";
   const password = "change-me-1234";
   const passwordEncrypted = await bcrypt.hash(password, 10);

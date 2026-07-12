@@ -1,20 +1,20 @@
 // app/api/auth/login/route.ts
-import crypto from "crypto";
 import { NextResponse } from "next/server";
-import { loginAction , loginWithTestAccountAction } from "@/server/actions/auth.action";
+import { loginWithTestAccountAction } from "@/server/actions/auth.action";
 import { setSessionCookie } from "@/server/utils/session-cookie.utils";
 import { createSession } from "@/server/services/session.service";
 
-export async function POST(req: Request) {
-  const { accountId, password } = await req.json();
+export async function POST() {
   // Authenticate user
-  const authResult = await loginAction(accountId, password);
+  const authResult = await loginWithTestAccountAction();
+
   if (!authResult.ok) {
     return NextResponse.json({ ok: false, code: authResult.code }, { status: authResult.status });
   }
-
+  console.log("/auth/testLogin : authResult", authResult);
   // Create session and set cookie
   const token = await createSession(authResult.data!.userId);
+  console.log("/auth/testLogin : token", token);
   const res = NextResponse.json({ ok: true });
   setSessionCookie(res, token);
 

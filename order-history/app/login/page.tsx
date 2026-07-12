@@ -34,7 +34,7 @@ export default function LoginPage() {
         setError(null);
         setIsSubmitting(true);
 
-        if(remembered) {
+        if (remembered) {
             localStorage.setItem("rememberedAccountId", accountId);
         }
 
@@ -44,7 +44,7 @@ export default function LoginPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ accountId, password }),
             });
-            console.log("Response:", res);
+            // console.log("Response:", res);
             if (!res.ok) {
                 const data = (await res.json().catch(() => null)) as { message?: string } | null;
                 window.location.href = "/login";
@@ -52,6 +52,33 @@ export default function LoginPage() {
             }
             // 로그인 성공 후 이동 (필요한 경로로 바꿔도 됨)
             window.location.href = "/dashboard";
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Unexpected error occurred.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
+    async function onClickTestLogin(e: React.FormEvent) {
+        e.preventDefault();
+        setError(null);
+        setIsSubmitting(true);
+
+        try {
+            const res = await fetch("/api/auth/testLogin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body:null
+            })
+            debugger;
+            console.log("test");
+            if (!res.ok) {
+                const data = (await res.json().catch(() => null)) as { message?: string } | null;
+                window.location.href = "/login";
+                throw new Error(data?.message || "Login failed. Please check your details.");
+            }
+            window.location.href = "/dashboard";
+
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unexpected error occurred.");
         } finally {
@@ -125,7 +152,7 @@ export default function LoginPage() {
                                         type="checkbox"
                                         className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-slate-200 focus:ring-0"
                                         checked={remembered}
-                                        onChange={(e)=> handleRememberChange(e.target.checked)}
+                                        onChange={(e) => handleRememberChange(e.target.checked)}
                                     />
                                     Remember me
                                 </label>
@@ -145,6 +172,14 @@ export default function LoginPage() {
                             className="w-full rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             {isSubmitting ? "Signing in..." : "Sign in"}
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={onClickTestLogin}
+                            className="w-full rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                            {isSubmitting ? "Signing in..." : "Try it"}
                         </button>
 
                         <p className="pt-2 text-center text-xs text-slate-400">
