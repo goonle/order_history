@@ -1,6 +1,6 @@
 import { Vendor } from "@/generated/prisma/client";
 import { getAuthedUserIdFromSessionToken } from "./session.service";
-import { findVendorsByUser, findByUserAndVendor, createVendor, updateVendor, deleteVendor, updateVendorForDefaultTemplate } from "../repositories/vendor.repo";
+import { findVendorsByUser, findItemsByVendor, createVendor, updateVendor, deleteVendor, updateVendorForDefaultTemplate } from "../repositories/vendor.repo";
 
 import { AuthError, InternalServerError } from "@/domain/errors";
 import { VendorData, Vendor as AppVendor } from "@/app/model/vendor";
@@ -14,7 +14,7 @@ export async function getVendorListByUser() {
 
 export async function getItemListByVendor(vendorId: number) {
     try {
-        const items = await findByUserAndVendor(vendorId);
+        const items = await findItemsByVendor(vendorId);
         return items;
     } catch (error) {
         throw new InternalServerError("Failed to retrieve items");

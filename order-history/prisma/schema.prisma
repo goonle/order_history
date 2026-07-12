@@ -189,7 +189,7 @@ model Template {
 }
 
 /**
- * CATEGORY / UNIT (네 Item 타입에 FK가 있어서 최소 모델로 추가)
+ * CATEGORY / UNIT
  */
 model Category {
   id   Int    @id @default(autoincrement())
@@ -242,7 +242,6 @@ model Item {
 
 /**
  * ORDER + ORDER ITEM
- * (OrderHistory / OrderHistoryLine은 이 두 테이블로 "조회해서 만들 수 있는 형태"라 별도 테이블로 만들지 않았어)
  */
 model Order {
   id        Int      @id @default(autoincrement())

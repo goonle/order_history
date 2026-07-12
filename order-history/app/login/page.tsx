@@ -44,13 +44,12 @@ export default function LoginPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ accountId, password }),
             });
-            // console.log("Response:", res);
             if (!res.ok) {
                 const data = (await res.json().catch(() => null)) as { message?: string } | null;
                 window.location.href = "/login";
                 throw new Error(data?.message || "Login failed. Please check your details.");
             }
-            // 로그인 성공 후 이동 (필요한 경로로 바꿔도 됨)
+            // after login, redirect to dashboard page
             window.location.href = "/dashboard";
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unexpected error occurred.");
