@@ -28,19 +28,21 @@ export async function logoutUser(res: NextResponse) {
 export async function changeUserPassword(payload: { currentPassword: string, newPassword: string, confirmPassword: string }) {
 
     const { currentPassword, newPassword, confirmPassword } = payload;
+    // error case 1
     if (!currentPassword || !newPassword || !confirmPassword) {
         throw new ValidationError("Current password, new password, and confirm password are required.");
     }
+    // error case 2
     if (newPassword !== confirmPassword) {
         throw new ValidationError("New password and confirm password do not match.");
     }
-
+    // error case 3
     const userId = await getAuthedUserIdFromSessionToken();
     if (!userId) throw new AuthError("User not authenticated");
-
+    // error case 4
     const user = await findUserById(userId);
     if (!user) throw new AuthError("User not found");
-
+    // error case 5
     const passwordMatch = await bcrypt.compare(currentPassword, user.passwordEncrypted);
     if (!passwordMatch) {
         throw new AuthError("Current password is incorrect.");
